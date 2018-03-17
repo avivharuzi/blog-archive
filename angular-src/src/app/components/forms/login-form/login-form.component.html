@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <app-loading [loading]="false" [background]="'white'"></app-loading>
+      <form [formGroup]="loginForm" (ngSubmit)="setLoginForm()" autocomplete="off" novalidate>
+        <div class="bg-dark text-light p-3 text-center mb-3">
+          <h1 class="jumbotron-heading">Login</h1>
+        </div>
+        <app-message *ngIf="messageForm && typeMessage" [type]="typeMessage" [message]="messageForm"></app-message>
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" formControlName="username" [ngClass]="getStatus('username')" class="form-control" placeholder="Username">
+          <app-error-form [control]="loginForm.controls['username']"></app-error-form>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" formControlName="password" [ngClass]="getStatus('password')" class="form-control" placeholder="Password">
+          <app-error-form [control]="loginForm.controls['password']"></app-error-form>
+        </div>
+        <div class="form-group">
+          <button [disabled]="loginForm.invalid" type="submit" class="btn btn-block btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

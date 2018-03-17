@@ -1,0 +1,90 @@
+<div *ngIf="categories && categories.length" class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <app-message *ngIf="typeMessage && postMessage" [type]="typeMessage" [message]="postMessage"></app-message>
+      <form *ngIf="categories.length; else noCategories" [formGroup]="addPostForm" (ngSubmit)="setAddPostForm()" autocomplete="off"
+        novalidate>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" formControlName="title" placeholder="Title" class="form-control">
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label>Slug</label>
+              <input type="text" formControlName="slug" placeholder="Slug" class="form-control">
+              <button type="button" (click)="generateSlug()" class="btn btn-link p-0">Generate slug from title</button>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label>Author</label>
+              <input type="text" formControlName="author" placeholder="Author" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label>Category</label>
+              <select formControlName="category" class="form-control">
+                <option *ngFor="let category of categories" [value]="category._id">{{ category.name | capitalize }}</option>
+              </select>
+              <button type="button" class="btn btn-link p-0" (click)="openModal(addNewCategory)">Add new category</button>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label>Publish Date</label>
+              <input type="text" [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" formControlName="publishDate" placeholder="Publish Date"
+                class="form-control" bsDatepicker>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="file">Cover Image</label>
+              <input #fileImage type="file" id="file" name="coverImage" (change)="changeCoverImage($event)" class="custom-b4-file">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Summary</label>
+          <textarea placeholder="Summary" formControlName="summary" rows="5" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Body</label>
+          <ckeditor formControlName="body"></ckeditor>
+        </div>
+        <div class="form-group">
+          <label>Tags</label>
+          <tag-input [placeholder]="'Tags'" formControlName="tags" theme='bootstrap'></tag-input>
+        </div>
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" formControlName="isPublished" class="custom-control-input" id="isPublished">
+            <label class="custom-control-label" for="isPublished">Published</label>
+          </div>
+        </div>
+        <button [disabled]="addPostForm.invalid" class="btn btn-block btn-success" type="submit">Submit</button>
+      </form>
+      <ng-template #noCategories>
+        <app-message [type]="'warning'" [message]="'There are not categories right you need at least one category to add post'"></app-message>
+        <button type="button" class="btn btn-block btn-primary" (click)="openModal(addNewCategory)">
+          <i class="fa fa-plus mr-3"></i>Add new category</button>
+      </ng-template>
+      <ng-template #addNewCategory>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Add New Category</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-add-category-form (successCategory)="onSuccessCategory($event)"></app-add-category-form>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

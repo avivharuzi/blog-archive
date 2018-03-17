@@ -1,0 +1,18 @@
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <app-message *ngIf="typeMessage && categoryMessage" [type]="typeMessage" [message]="categoryMessage"></app-message>
+      <form [formGroup]="categoryForm" (ngSubmit)="setCategoryForm()" autocomplete="off" novalidate>
+        <div class="form-group">
+          <label>Category Name</label>
+          <input type="text" class="form-control" placeholder="Category Name" formControlName="name">
+        </div>
+        <div class="form-group">
+          <label for="file">Category Image</label>
+          <input #fileImage type="file" id="file" name="categoryImage" (change)="changeCategoryImage($event)" class="custom-b4-file">
+        </div>
+        <button [disabled]="categoryForm.invalid" class="btn btn-block btn-success">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

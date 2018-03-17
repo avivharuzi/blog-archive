@@ -1,0 +1,32 @@
+#nav {
+  margin-top: 0;
+  width: 100%;
+  background: #34495e !important;
+  padding: 15px 0;
+
+}
+
+#nav ul {
+  list-style-type: none;
+  margin: 0;
+}
+
+#nav ul li {
+  position: relative;
+  float: left;
+}
+
+#nav ul li a {
+  color: #fff;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+
+#nav ul li a:hover {
+  text-decoration: none;
+  background: #2c3e50;
+}
+
+.router-link-active {
+  background: #2c3e50;
+}
