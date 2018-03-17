@@ -7,11 +7,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/throw';
 import { Category } from '../../models/category.model';
+import { ValidationService } from '../validation/validation.service';
 
 @Injectable()
 export class CategoryService {
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private validationService: ValidationService
   ) { }
 
   getCategories(): Observable<any> {
@@ -22,13 +24,7 @@ export class CategoryService {
   }
 
   setCategory(category: Category): Observable<any> {
-    const fd: FormData = new FormData();
-
-    for (let key in category) {
-      if (category.hasOwnProperty(key)) {
-        fd.append(key, category[key]);
-      }
-    }
+    const fd: FormData = this.validationService.getFormDataFromObject(category);
 
     return this.http.post(BASE_CATEGORY_URL, fd).map((res: any) => {
       return res;
@@ -37,13 +33,7 @@ export class CategoryService {
   }
 
   updateCategory(categoryId: string, category: Category): Observable<any> {
-    const fd: FormData = new FormData();
-
-    for (let key in category) {
-      if (category.hasOwnProperty(key)) {
-        fd.append(key, category[key]);
-      }
-    }
+    const fd: FormData = this.validationService.getFormDataFromObject(category);
 
     return this.http.put(`${BASE_CATEGORY_URL}/${categoryId}`, category).map((res: any) => {
       return res;

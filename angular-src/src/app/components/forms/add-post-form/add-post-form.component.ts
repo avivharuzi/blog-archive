@@ -109,18 +109,14 @@ export class AddPostFormComponent implements OnInit {
         this.coverImage
       );
 
-      console.log(post);
-
       this.postService.setPost(post).subscribe((res: any) => {
         if (res) {
-          console.log(res);
           this.postMessage = res.message;
           this.typeMessage = 'success';
           this.addPostForm.reset();
           this.resetCoverImage();
         }
       }, (err) => {
-        console.log(err);
         this.postMessage = err.errors;
         this.typeMessage = 'danger';
       });

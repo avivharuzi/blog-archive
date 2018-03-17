@@ -46,11 +46,8 @@ export class AddCategoryFormComponent implements OnInit {
         this.categoryImage
       );
 
-      console.log(category);
-
       this.categoryService.setCategory(category).subscribe((res: any) => {
         if (res) {
-          console.log(res);
           this.categoryMessage = res.message;
           this.typeMessage = 'success';
           this.successCategory.emit(res.data);
@@ -58,7 +55,6 @@ export class AddCategoryFormComponent implements OnInit {
           this.resetCoverImage();
         }
       }, (err) => {
-        console.log(err);
         this.categoryMessage = err.errors;
         this.typeMessage = 'danger';
       });
