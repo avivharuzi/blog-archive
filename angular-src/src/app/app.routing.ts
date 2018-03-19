@@ -28,7 +28,7 @@ const appRoutes: Routes = [
   },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard], children: [
       {
-        path: 'home', component: AdminHomeComponent, canActivate: [AuthGuard]
+        path: '', component: AdminHomeComponent, canActivate: [AuthGuard]
       },
       {
         path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard]
@@ -43,7 +43,7 @@ const appRoutes: Routes = [
         path: 'edit-categories', component: EditCategoriesComponent, canActivate: [AuthGuard]
       },
       {
-        path:  '', redirectTo: 'home', pathMatch: 'full'
+        path:  '', redirectTo: '', pathMatch: 'full'
       },
     ]
   },

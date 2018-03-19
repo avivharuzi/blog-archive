@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BASE_CATEGORY_URL } from './../../constants/urls';
 import { Observable } from 'rxjs/Observable';
@@ -11,6 +11,8 @@ import { ValidationService } from '../validation/validation.service';
 
 @Injectable()
 export class CategoryService {
+  public updatedCategory: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(
     private http: HttpClient,
     private validationService: ValidationService
@@ -32,10 +34,10 @@ export class CategoryService {
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));
   }
 
-  updateCategory(categoryId: string, category: Category): Observable<any> {
+  updateCategory(category: Category, categoryId: string): Observable<any> {
     const fd: FormData = this.validationService.getFormDataFromObject(category);
 
-    return this.http.put(`${BASE_CATEGORY_URL}/${categoryId}`, category).map((res: any) => {
+    return this.http.put(`${BASE_CATEGORY_URL}/${categoryId}`, fd).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));

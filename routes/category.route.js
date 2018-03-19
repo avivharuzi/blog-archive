@@ -21,6 +21,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     CategoryController.validateCategory(req.body, req.files, req.params.id)
         .then(CategoryController.validateAndUploadCategoryImage)
+        .then(CategoryController.checkAndDeleteOldImage)
         .then(CategoryController.updateCategory)
         .then((updateCategory) => RouteHandler.success(res, 'This category updated successfully', updateCategory))
         .catch((err) => RouteHandler.error(res, 409, '', err));

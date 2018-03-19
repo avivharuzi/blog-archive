@@ -38,9 +38,11 @@ class CategoryController {
             Category.findByIdAndUpdate(category.id, {
                 name: category.name,
                 image: category.image
-            }, (err, updatedCategory) => {
+            }, {
+                new: true
+            }).exec((err, updatedCategory) => {
                 if (err) {
-                    reject(err)
+                    reject(err);
                 } else {
                     resolve(updatedCategory);
                 }
@@ -61,7 +63,7 @@ class CategoryController {
             } else {
                 errors.push('Category name is invalid');
             }
-    
+
             if (errors.length) {
                 reject(errors);
             } else if (!categoryId) {
@@ -116,7 +118,7 @@ class CategoryController {
 
     static checkCategoryNameExistUpdate(category) {
         return new Promise((resolve, reject) => {
-            if (category.existCategoryName && category.name.toLowerCase() === category.existCategoryName) {
+            if (category.existCategoryName && category.name.toLowerCase() == category.existCategoryName) {
                 resolve(category);
             } else {
                 CategoryController.checkCategoryName(category)
@@ -187,6 +189,17 @@ class CategoryController {
                     resolve();
                 }
             });
+        });
+    }
+
+    static checkAndDeleteOldImage(category) {
+        return new Promise((resolve, reject) => {
+            if (category.existCategoryImage != process.env.DEFAULT_CATEGORY_IMAGE) {
+                FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + category.existCategoryImage);
+                resolve(category);
+            } else {
+                resolve(category);
+            }
         });
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validator } from '../../../models/validator.model';
 import { Category } from '../../../models/category.model';
@@ -15,6 +15,9 @@ export class CategoryFormComponent implements OnInit {
   public categoryMessage: any;
   public typeMessage: string;
 
+  @Input()
+  public editCategory: any;
+
   @ViewChild('fileImage')
   public fileImage: any;
 
@@ -27,6 +30,7 @@ export class CategoryFormComponent implements OnInit {
 
   ngOnInit() {
     this.createCategoryForm();
+    this.checkCategoryEdit();
   }
 
   createCategoryForm(): void {
@@ -41,24 +45,52 @@ export class CategoryFormComponent implements OnInit {
 
   setCategoryForm(): void {
     if (this.categoryForm.valid) {
-      const category: Category = new Category(
-        this.categoryForm.get('name').value,
-        this.categoryImage
-      );
-
-      this.categoryService.setCategory(category).subscribe((res: any) => {
-        if (res) {
-          this.categoryMessage = res.message;
-          this.typeMessage = 'success';
-          this.successCategory.emit(res.data);
-          this.categoryForm.reset();
-          this.resetCoverImage();
-        }
-      }, (err) => {
-        this.categoryMessage = err.errors;
-        this.typeMessage = 'danger';
-      });
+      if (this.editCategory) {
+        this.setEditCategory();
+      } else {
+        this.setAddCategory();
+      }
     }
+  }
+
+  setAddCategory() {
+    const category: Category = new Category(
+      this.categoryForm.get('name').value,
+      this.categoryImage
+    );
+
+    this.categoryService.setCategory(category).subscribe((res: any) => {
+      if (res) {
+        this.categoryMessage = res.message;
+        this.typeMessage = 'success';
+        this.successCategory.emit(res.data);
+        this.categoryForm.reset();
+        this.resetCoverImage();
+      }
+    }, (err) => {
+      this.categoryMessage = err.errors;
+      this.typeMessage = 'danger';
+    });
+  }
+
+  setEditCategory() {
+    const category: Category = new Category(
+      this.categoryForm.get('name').value,
+      this.categoryImage,
+      this.editCategory.name,
+      this.editCategory.image
+    );
+
+    this.categoryService.updateCategory(category, this.editCategory._id).subscribe((res: any) => {
+      if (res) {
+        this.categoryMessage = res.message;
+        this.typeMessage = 'success';
+        this.categoryService.updatedCategory.emit(res.data);
+      }
+    }, (err) => {
+      this.categoryMessage = err.errors;
+      this.typeMessage = 'danger';
+    });
   }
 
   changeCategoryImage(event): void {
@@ -69,5 +101,13 @@ export class CategoryFormComponent implements OnInit {
   resetCoverImage(): void {
     this.categoryImage = null;
     this.fileImage.nativeElement.value = '';
+  }
+
+  checkCategoryEdit(): void {
+    if (this.editCategory) {
+      this.categoryForm.setValue({
+        name: this.editCategory.name,
+      });
+    }
   }
 }

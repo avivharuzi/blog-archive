@@ -15,6 +15,7 @@ export class EditCategoriesComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
+    this.onSuccessCategory();
   }
 
   getCategories() {
@@ -22,6 +23,17 @@ export class EditCategoriesComponent implements OnInit {
       this.categories = res;
     }, (err) => {
       console.log(err);
+    });
+  }
+
+  onSuccessCategory() {
+    this.categoryService.updatedCategory.subscribe((updatedCategory: any) => {
+      for (let i = 0; i < this.categories.length; i++) {
+        if (this.categories[i]._id === updatedCategory._id) {
+          this.categories[i] = updatedCategory;
+          break;
+        }
+      }
     });
   }
 }

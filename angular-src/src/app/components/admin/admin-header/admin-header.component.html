@@ -1,7 +1,7 @@
 <div id="nav" class="clearfix">
   <div class="container">
     <ul>
-      <li><a routerLink="home" routerLinkActive="router-link-active">Home</a></li>
+      <li><a routerLink="/admin" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
       <li><a routerLink="add-post" routerLinkActive="router-link-active">Add Post</a></li>
       <li><a routerLink="edit-posts" routerLinkActive="router-link-active">Edit Posts</a></li>
       <li><a routerLink="add-category" routerLinkActive="router-link-active">Add Category</a></li>
