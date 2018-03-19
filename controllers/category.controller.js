@@ -66,15 +66,15 @@ class CategoryController {
 
             if (errors.length) {
                 reject(errors);
-            } else if (!categoryId) {
-                CategoryController.checkCategoryName(category)
-                    .then((category) => resolve(category))
-                    .catch((err) => reject(err));
-            } else {
+            } else if (categoryId) {
                 category.id = categoryId;
 
                 CategoryController.checkCategoryNameExistUpdate(category)
                     .then(CategoryController.checkCategoryImageExistUpdate)
+                    .then(resolve)
+                    .catch(reject);
+            } else {
+                CategoryController.checkCategoryName(category)
                     .then(resolve)
                     .catch(reject);
             }
@@ -106,7 +106,7 @@ class CategoryController {
                     category.image = newImageName;
                     resolve(category);
                 })
-                .catch((err) => reject(err));
+                .catch(reject);
             } else if (category.image == 'null' || category.image == 'undefined') {
                 category.image = process.env.DEFAULT_CATEGORY_IMAGE;
                 resolve(category);  
@@ -122,8 +122,8 @@ class CategoryController {
                 resolve(category);
             } else {
                 CategoryController.checkCategoryName(category)
-                    .then((category) => resolve(category))
-                    .catch((err) => reject(err));
+                    .then(resolve)
+                    .catch(reject);
             }
         });
     }
@@ -187,6 +187,28 @@ class CategoryController {
                     reject(err);
                 } else {
                     resolve();
+                }
+            });
+        });
+    }
+
+    static removePostFromCategoryUpdate(post) {
+        return new Promise((resolve, reject) => {
+            Category.update(
+                {
+                    _id: post.existPostCategory 
+                },
+                {
+                    $pull: { posts: post.id }
+                },
+                {
+                    multi: true
+                }
+            ).exec((err, updatedCategory) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(post);
                 }
             });
         });

@@ -21,7 +21,14 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    //
+    PostController.validatePost(req.body, req.files, req.params.id)
+        .then(PostController.validateAndUploadPostImage)
+        .then(PostController.checkAndDeleteOldImage)
+        .then(CategoryController.removePostFromCategoryUpdate)
+        .then(PostController.updatePost)
+        .then(CategoryController.addPostToCategory)
+        .then((updatePost) => RouteHandler.success(res, 'This post updated successfully', updatePost))
+        .catch((err) => RouteHandler.error(res, 409, '', err));
 });
 
 router.delete('/:id', (req, res) => {

@@ -9,10 +9,15 @@ export class Post {
   public isPublished: boolean;
   public publishDate: string;
   public coverImage: any;
+  public existPostTitle?: string;
+  public existPostSlug?: string;
+  public existPostImage?: any;
+  public existPostCategory?: any;
 
   public constructor(
     _title: string, _slug: string, _author: string, _summary: string, _body: string,
-    _tags: string[], _category: string, _isPublished: boolean, _publishDate: string, _coverImage: any
+    _tags: string[], _category: string, _isPublished: boolean, _publishDate: string, _coverImage: any,
+    _existPostTitle?: string, _existPostSlug?: string, _existPostImage?: any, _existPostCategory?: any
   ) {
     this.title = _title;
     this.slug = _slug;
@@ -24,5 +29,9 @@ export class Post {
     this.isPublished = _isPublished;
     this.publishDate = _publishDate;
     this.coverImage = _coverImage;
+    this.existPostTitle = _existPostTitle;
+    this.existPostSlug = _existPostSlug;
+    this.existPostImage = _existPostImage;
+    this.existPostCategory = _existPostCategory;
   }
 }

@@ -46,7 +46,32 @@ class PostController {
         });
     }
 
-    static validatePost(post, files) {
+    static updatePost(post) {
+        return new Promise((resolve, reject) => {
+            Post.findByIdAndUpdate(post.id, {
+                title: post.title,
+                slug: post.slug,
+                author: post.author,
+                summary: post.summary,
+                body: post.body,
+                tags: post.tags,
+                category: post.category,
+                isPublished: post.isPublished,
+                coverImage: post.coverImage,
+                publishDate: post.publishDate
+            }, {
+                new: true
+            }).exec((err, updatedPost) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(updatedPost);
+                }
+            });
+        });
+    }
+
+    static validatePost(post, files, postId = null) {
         return new Promise((resolve, reject) => {
             let errors = [];
 
@@ -111,6 +136,15 @@ class PostController {
     
             if (errors.length) {
                 reject(errors);
+            } else if (!postId) {
+                post.id = postId;
+
+                PostController.checkCategoryByIdFromPost(post)
+                    .then(PostController.checkPostTitleExistUpdate)
+                    .then(PostController.checkPostSlugExistUpdate)
+                    .then(PostController.checkPostImageExistUpdate)
+                    .then(resolve)
+                    .catch(reject);
             } else {
                 CategoryController.checkCategoryByIdFromPost(post)
                     .then(PostController.checkByTitleExist)
@@ -155,13 +189,17 @@ class PostController {
 
     static validateAndUploadPostImage(post) {
         return new Promise((resolve, reject) => {
-            FileHandler.checkFilesErrors(post.coverImage, 'image', 2)
+            if (category.coverImage.constructor !== String) {
+                FileHandler.checkFilesErrors(post.coverImage, 'image', 2)
                 .then(FileHandler.moveFiles)
                 .then((newImageName) => {
                     post.coverImage = newImageName;
                     resolve(post);
                 })
-                .catch((err) => reject(err));
+                .catch(reject);
+            } else {
+                resolve(post);
+            }
         });
     }
 
@@ -174,6 +212,52 @@ class PostController {
                     resolve(res);
                 }
             });
+        });
+    }
+
+    static checkAndDeleteOldImage(post) {
+        return new Promise((resolve, reject) => {
+            if (post.existCoverImage != post.coverImage) {
+                FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + post.existCoverImage);
+                resolve(post);
+            } else {
+                resolve(post);
+            }
+        });
+    }
+    
+    static checkPostTitleExistUpdate(post) {
+        return new Promise((resolve, reject) => {
+            if (post.existPostTitle && post.title.toLowerCase() == post.existPostTitle) {
+                resolve(post);
+            } else {
+                PostController.checkByTitleExist(post)
+                    .then(resolve)
+                    .catch(reject);
+            }
+        });
+    }
+
+    static checkPostSlugExistUpdate(post) {
+        return new Promise((resolve, reject) => {
+            if (post.existPostSlug && post.slug.toLowerCase() == post.existPostSlug) {
+                resolve(post);
+            } else {
+                PostController.checkBySlugExist(post)
+                    .then(resolve)
+                    .catch(reject);
+            }
+        });
+    }
+
+    static checkPostImageExistUpdate(category) {
+        return new Promise((resolve, reject) => {
+            if (post.existPostCoverImage && !post.coverImage) {
+                post.coverImage = post.existPostCoverImage;
+                resolve(post);
+            } else {
+                resolve(post);
+            }
         });
     }
 }
