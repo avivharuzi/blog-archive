@@ -1,9 +1,8 @@
-<div *ngIf="categories" class="container mb-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-12">
+<div class="container mb-5">
+  <div *ngIf="categories" class="row justify-content-center">
+    <div *ngIf="categories && categories.length; else noCategories" class="col-lg-12">
       <app-message *ngIf="typeMessage && postMessage" [type]="typeMessage" [message]="postMessage"></app-message>
-      <form *ngIf="categories.length; else noCategories" [formGroup]="addPostForm" (ngSubmit)="setAddPostForm()" autocomplete="off"
-        novalidate>
+      <form [formGroup]="postForm" (ngSubmit)="setPostForm()" autocomplete="off" novalidate>
         <div class="row">
           <div class="col-lg-4">
             <div class="form-group">
@@ -67,24 +66,26 @@
             <label class="custom-control-label" for="isPublished">Published</label>
           </div>
         </div>
-        <button [disabled]="addPostForm.invalid" class="btn btn-block btn-success" type="submit">Submit</button>
+        <button [disabled]="postForm.invalid" class="btn btn-block btn-success" type="submit">Submit</button>
       </form>
-      <ng-template #noCategories>
+    </div>
+    <ng-template #noCategories>
+      <div class="col-lg-12">
         <app-message [type]="'warning'" [message]="'There are not categories right you need at least one category to add post'"></app-message>
         <button type="button" class="btn btn-block btn-primary" (click)="openModal(addNewCategory)">
           <i class="fa fa-plus mr-3"></i>Add new category</button>
-      </ng-template>
-      <ng-template #addNewCategory>
-        <div class="modal-header">
-          <h4 class="modal-title pull-left">Add New Category</h4>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <app-add-category-form (successCategory)="onSuccessCategory($event)"></app-add-category-form>
-        </div>
-      </ng-template>
-    </div>
+      </div>
+    </ng-template>
+    <ng-template #addNewCategory>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add New Category</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-category-form (successCategory)="onSuccessCategory($event)"></app-category-form>
+      </div>
+    </ng-template>
   </div>
 </div>

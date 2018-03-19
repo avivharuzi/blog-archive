@@ -53,6 +53,10 @@ const postSchema = new Schema({
     }
 });
 
+postSchema.pre('update', function () {
+    this.update({}, { $set: { updatedDate: new Date() } });
+});
+
 const Post = mongoose.model('Post', postSchema, 'posts');
 
 module.exports = Post;

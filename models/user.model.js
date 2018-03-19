@@ -62,6 +62,10 @@ userSchema.methods.comparePassword = function (candidatePassword, cb) {
     });
 };
 
+userSchema.pre('update', function () {
+    this.update({}, { $set: { updatedDate: new Date() } });
+});
+
 const User = mongoose.model('User', userSchema, 'users');
 
 module.exports = User;

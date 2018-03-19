@@ -1,1 +1,2 @@
 <app-page-header [icon]="'pencil'" [header]="'Edit Posts'"></app-page-header>
+<app-posts-table (deletePost)="onDeletePost($event)" [posts]="posts"></app-posts-table>

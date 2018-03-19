@@ -10,4 +10,6 @@ export const BASE_CATEGORY_URL: any = `${BASE_URL}/api/category`;
 
 export const BASE_POST_URL: any = `${BASE_URL}/api/post`;
 
+export const BASE_IMAGE_PATH: any = `${BASE_URL}/images`;
+
 export const NO_AUTHORIZATION_URLS: any[] = [LOGIN_URL, CHECK_TOKEN_URL];

@@ -17,6 +17,7 @@ import { EditCategoriesComponent } from './components/admin/edit-categories/edit
 // Guards
 import { AuthGuard } from './guards/auth/auth.guard';
 
+// Routes
 const appRoutes: Routes = [
   {
     path: '', component: BlogComponent, children: [

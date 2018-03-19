@@ -5,11 +5,11 @@ import { Category } from '../../../models/category.model';
 import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
-  selector: 'app-add-category-form',
-  templateUrl: './add-category-form.component.html',
-  styleUrls: ['./add-category-form.component.css']
+  selector: 'app-category-form',
+  templateUrl: './category-form.component.html',
+  styleUrls: ['./category-form.component.css']
 })
-export class AddCategoryFormComponent implements OnInit {
+export class CategoryFormComponent implements OnInit {
   public categoryForm: FormGroup;
   public categoryImage: File;
   public categoryMessage: any;

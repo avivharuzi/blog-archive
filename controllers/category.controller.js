@@ -21,7 +21,8 @@ class CategoryController {
         return new Promise((resolve, reject) => {
             Category.create({
                 name: category.name,
-                image: category.image
+                image: category.image,
+                posts: []
             }, (err, newCategory) => {
                 if (err) {
                     reject(err)
@@ -148,6 +149,44 @@ class CategoryController {
                         reject(['This category doesnt exist']);
                     }
                 });
+        });
+    }
+
+    static addPostToCategory(post) {
+        return new Promise((resolve, reject) => {
+            Category.findByIdAndUpdate(post.category, {
+                $push: {
+                    posts: post._id
+                }
+            }, (err, updatedCategory) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(post);
+                }
+            });
+        });
+    }
+
+    static removePostFromCategory(post) {
+        return new Promise((resolve, reject) => {
+            Category.update(
+                {
+                    _id: post.category 
+                },
+                {
+                    $pull: { posts: post._id }
+                },
+                {
+                    multi: true
+                }
+            ).exec((err, updatedCategory) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
         });
     }
 }

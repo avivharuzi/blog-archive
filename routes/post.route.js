@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const PostController = require('./../controllers/post.controller');
+const CategoryController = require('./../controllers/category.controller');
 const RouteHandler = require('./../handlers/route.handler');
 
 router.get('/', (req, res) => {
@@ -14,12 +15,20 @@ router.post('/', (req, res) => {
     PostController.validatePost(req.body, req.files)
         .then(PostController.validateAndUploadPostImage)
         .then(PostController.savePost)
+        .then(CategoryController.addPostToCategory)
         .then((newPost) => RouteHandler.success(res, 'New post added successfully', newPost))
         .catch((err) => RouteHandler.error(res, 409, 'There was problem by saving this post', err))
 });
 
 router.put('/:id', (req, res) => {
     //
+});
+
+router.delete('/:id', (req, res) => {
+    PostController.deletePost(req.params.id)
+        .then(CategoryController.removePostFromCategory)
+        .then(() => RouteHandler.success(res, 'This post deleted successfully', ''))
+        .catch((err) => RouteHandler.error(res, 409, '', err));
 });
 
 module.exports = router;

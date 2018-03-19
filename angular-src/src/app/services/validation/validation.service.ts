@@ -46,7 +46,7 @@ export class ValidationService {
     const fd: FormData = new FormData();
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
-        if (obj[key] !== undefined && obj[key].constructor === Array) {
+        if (obj[key] && obj[key].constructor === Array) {
           for (let arrKey of obj[key]) {
             fd.append(key, arrKey);
           }

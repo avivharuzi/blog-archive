@@ -31,4 +31,20 @@ export class PostService {
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));
   }
+
+  deletePost(postId: string): Observable<any> {
+    return this.http.delete(`${BASE_POST_URL}/${postId}`).map((res: any) => {
+      return res;
+    })
+    .catch((err: HttpErrorResponse) => Observable.throw(err.error));
+  }
+
+  editPost(post: Post, postId: string): Observable<any> {
+    const fd: FormData = this.validationService.getFormDataFromObject(post);
+
+    return this.http.put(`${BASE_POST_URL}/${postId}`, fd).map((res: any) => {
+      return res;
+    })
+    .catch((err: HttpErrorResponse) => Observable.throw(err.error));
+  }
 }

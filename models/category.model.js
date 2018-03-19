@@ -10,7 +10,23 @@ const categorySchema = new Schema({
     },
     image: {
         type: String
+    },
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    createdDate: {
+        type: Date,
+        default: Date.now
+    },
+    updatedDate: {
+        type: Date,
+        default: Date.now
     }
+});
+
+categorySchema.pre('update', function () {
+    this.update({}, { $set: { updatedDate: new Date() } });
 });
 
 const Category = mongoose.model('Category', categorySchema, 'categories');

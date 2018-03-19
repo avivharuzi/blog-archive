@@ -1,25 +1,28 @@
-import { PostService } from '../../../services/post/post.service';
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validator } from '../../../models/validator.model';
 import { Post } from '../../../models/post.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { PostService } from '../../../services/post/post.service';
 import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
-  selector: 'app-add-post-form',
-  templateUrl: './add-post-form.component.html',
-  styleUrls: ['./add-post-form.component.css']
+  selector: 'app-post-form',
+  templateUrl: './post-form.component.html',
+  styleUrls: ['./post-form.component.css']
 })
-export class AddPostFormComponent implements OnInit {
-  public addPostForm: FormGroup;
+export class PostFormComponent implements OnInit {
+  public postForm: FormGroup;
   public dateNow: any;
   public coverImage: File;
   public postMessage: any;
   public typeMessage: string;
   public modalRef: BsModalRef;
   public categories: any[];
+
+  @Input()
+  public editPost: any;
 
   @ViewChild('fileImage')
   public fileImage: any;
@@ -28,17 +31,16 @@ export class AddPostFormComponent implements OnInit {
     private modalService: BsModalService,
     private categoryService: CategoryService,
     private postService: PostService
-  ) {
-    this.categories = new Array<any>();
-  }
+  ) { }
 
   ngOnInit() {
     this.getCategories();
     this.dateNow = new Date();
-    this.createAddPostForm();
+    this.createPostForm();
+    this.checkPostEdit();
   }
 
-  createAddPostForm(): void {
+  createPostForm(): void {
     const title = new FormControl('', [
       Validator.required('Title')
     ]);
@@ -73,7 +75,7 @@ export class AddPostFormComponent implements OnInit {
       Validator.required('publishDate')
     ]);
 
-    this.addPostForm = new FormGroup({
+    this.postForm = new FormGroup({
       title,
       slug,
       author,
@@ -86,26 +88,34 @@ export class AddPostFormComponent implements OnInit {
     });
   }
 
-  setAddPostForm(): void {
+  setPostForm(): void {
+    if (this.editPost) {
+      this.setEditPost();
+    } else {
+      this.setAddPost();
+    }
+  }
+
+  setAddPost() {
     if (!this.coverImage) {
       this.postMessage = 'You need to choose cover image';
       this.typeMessage = 'danger';
       return;
     }
 
-    if (this.addPostForm.valid) {
+    if (this.postForm.valid) {
       let tags = this.convertTagsToArr();
 
       const post: Post = new Post(
-        this.addPostForm.get('title').value,
-        this.addPostForm.get('slug').value,
-        this.addPostForm.get('author').value,
-        this.addPostForm.get('summary').value,
-        this.addPostForm.get('body').value,
+        this.postForm.get('title').value,
+        this.postForm.get('slug').value,
+        this.postForm.get('author').value,
+        this.postForm.get('summary').value,
+        this.postForm.get('body').value,
         tags,
-        this.addPostForm.get('category').value,
-        this.addPostForm.get('isPublished').value,
-        this.addPostForm.get('publishDate').value.getTime(),
+        this.postForm.get('category').value,
+        this.postForm.get('isPublished').value,
+        this.postForm.get('publishDate').value.getTime(),
         this.coverImage
       );
 
@@ -113,7 +123,7 @@ export class AddPostFormComponent implements OnInit {
         if (res) {
           this.postMessage = res.message;
           this.typeMessage = 'success';
-          this.addPostForm.reset();
+          this.postForm.reset();
           this.resetCoverImage();
         }
       }, (err) => {
@@ -123,8 +133,12 @@ export class AddPostFormComponent implements OnInit {
     }
   }
 
+  setEditPost() {
+    //
+  }
+
   generateSlug(): void {
-    let title = this.addPostForm.get('title').value;
+    let title = this.postForm.get('title').value;
 
     title = title
       .toString()
@@ -136,7 +150,7 @@ export class AddPostFormComponent implements OnInit {
       .replace(/^-+/, '')
       .replace(/-+$/, '');
 
-    this.addPostForm.controls['slug'].setValue(title);
+    this.postForm.controls['slug'].setValue(title);
   }
 
   changeCoverImage(event): void {
@@ -166,8 +180,24 @@ export class AddPostFormComponent implements OnInit {
   }
 
   convertTagsToArr(): string[] {
-    let tags = this.addPostForm.get('tags').value;
+    let tags = this.postForm.get('tags').value;
     tags = tags.map((tag) => tag.value);
     return tags;
+  }
+
+  checkPostEdit() {
+    if (this.editPost) {
+      this.postForm.setValue({
+        title: this.editPost.title,
+        slug: this.editPost.slug,
+        author: this.editPost.author,
+        summary: this.editPost.summary,
+        body: this.editPost.body,
+        tags: this.editPost.tags,
+        category: this.editPost.category._id,
+        isPublished: this.editPost.isPublished,
+        publishDate: new Date(this.editPost.publishDate)
+      });
+    }
   }
 }

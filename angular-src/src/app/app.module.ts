@@ -19,6 +19,7 @@ import { CKEditorModule } from 'ng2-ckeditor';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 // Components
 import { AppComponent } from './app.component';
@@ -35,11 +36,11 @@ import { AddPostComponent } from './components/admin/add-post/add-post.component
 import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
 import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
 import { EditPostsComponent } from './components/admin/edit-posts/edit-posts.component';
-import { AddPostFormComponent } from './components/forms/add-post-form/add-post-form.component';
 import { AddCategoryComponent } from './components/admin/add-category/add-category.component';
 import { EditCategoriesComponent } from './components/admin/edit-categories/edit-categories.component';
 import { PageHeaderComponent } from './components/admin/page-header/page-header.component';
-import { AddCategoryFormComponent } from './components/forms/add-category-form/add-category-form.component';
+import { PostFormComponent } from './components/forms/post-form/post-form.component';
+import { CategoryFormComponent } from './components/forms/category-form/category-form.component';
 
 // Services
 import { ValidationService } from './services/validation/validation.service';
@@ -61,6 +62,9 @@ import { AuthGuard } from './guards/auth/auth.guard';
 
 // Interceptors
 import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
+import { PostsTableComponent } from './components/tables/posts-table/posts-table.component';
+import { CategoriesTableComponent } from './components/tables/categories-table/categories-table.component';
+import { PictureComponent } from './components/layouts/body/picture/picture.component';
 
 @NgModule({
   declarations: [
@@ -84,11 +88,14 @@ import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
     BlogHomeComponent,
     AdminHeaderComponent,
     EditPostsComponent,
-    AddPostFormComponent,
+    PostFormComponent,
     AddCategoryComponent,
     EditCategoriesComponent,
     PageHeaderComponent,
-    AddCategoryFormComponent
+    CategoryFormComponent,
+    PostsTableComponent,
+    CategoriesTableComponent,
+    PictureComponent
   ],
   imports: [
     BrowserModule,
@@ -106,7 +113,8 @@ import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
     CKEditorModule,
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
-    NgxChartsModule
+    NgxChartsModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [
     ValidationService,

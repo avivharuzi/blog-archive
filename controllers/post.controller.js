@@ -14,6 +14,9 @@ class PostController {
                     if (err) {
                         reject(err);
                     } else {
+                        posts.map((post) => {
+                            post.body = ValidationHandler.decodeHtml(post.body);
+                        });
                         resolve(posts);
                     }
                 });
@@ -159,6 +162,18 @@ class PostController {
                     resolve(post);
                 })
                 .catch((err) => reject(err));
+        });
+    }
+
+    static deletePost(id) {
+        return new Promise((resolve, reject) => {
+            Post.findByIdAndRemove(id, (err, res) => {
+                if (err) {
+                    reject(['This post is not exist']);
+                } else {
+                    resolve(res);
+                }
+            });
         });
     }
 }
