@@ -10,6 +10,7 @@
             <th>Created Date</th>
             <th>Last Update</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -20,6 +21,17 @@
             <td>{{ category.createdDate | date:'short' }}</td>
             <td>{{ category.updatedDate | date:'short' }}</td>
             <td><button class="btn btn-warning text-light" (click)="openModal(editCategory, category)"><i class="fa fa-pencil"></i></button></td>
+            <td><button [disabled]="category.posts.length" class="btn btn-danger text-light" [swal]="deleteSwal"><i class="fa fa-trash"></i></button></td>
+            <swal
+            #deleteSwal
+            title="Are you sure?"
+            type="warning"
+            [showCancelButton]="true"
+            [focusCancel]="true"
+            confirmButtonText='Yes'
+            cancelButtonText='No'
+            (confirm)="delete(category)">
+            </swal>
           </tr>
         </tbody>
       </table>

@@ -23,7 +23,15 @@ router.put('/:id', (req, res) => {
         .then(CategoryController.validateAndUploadCategoryImage)
         .then(CategoryController.checkAndDeleteOldImage)
         .then(CategoryController.updateCategory)
-        .then((updateCategory) => RouteHandler.success(res, 'This category updated successfully', updateCategory))
+        .then((updatedCategory) => RouteHandler.success(res, 'This category updated successfully', updatedCategory))
+        .catch((err) => RouteHandler.error(res, 409, '', err));
+});
+
+router.delete('/:id', (req, res) => {
+    CategoryController.checkCategoryForDelete(req.params.id)
+        .then(CategoryController.deleteCategory)
+        .then(CategoryController.deleteImage)
+        .then((deletedCategory) => RouteHandler.success(res, 'This category deleted successfully', deletedCategory))
         .catch((err) => RouteHandler.error(res, 409, '', err));
 });
 

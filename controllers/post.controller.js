@@ -61,7 +61,7 @@ class PostController {
                 publishDate: post.publishDate
             }, {
                 new: true
-            }).exec((err, updatedPost) => {
+            }).populate('category').exec((err, updatedPost) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -77,7 +77,7 @@ class PostController {
 
             if (files && files.coverImage) {
                 post.coverImage = files.coverImage;
-            } else {
+            } else if (!postId) {
                 errors.push('You need to provide cover image');
             }
     
@@ -136,21 +136,21 @@ class PostController {
     
             if (errors.length) {
                 reject(errors);
-            } else if (!postId) {
+            } else if (postId) {
                 post.id = postId;
 
-                PostController.checkCategoryByIdFromPost(post)
+                CategoryController.checkCategoryByIdFromPost(post)
                     .then(PostController.checkPostTitleExistUpdate)
                     .then(PostController.checkPostSlugExistUpdate)
                     .then(PostController.checkPostImageExistUpdate)
-                    .then(resolve)
-                    .catch(reject);
+                    .then((post) => resolve(post))
+                    .catch((reject) => reject(err));
             } else {
                 CategoryController.checkCategoryByIdFromPost(post)
                     .then(PostController.checkByTitleExist)
                     .then(PostController.checkBySlugExist)
-                    .then(resolve)
-                    .catch(reject);
+                    .then((post) => resolve(post))
+                    .catch((reject) => reject(err));
             }
         });
     }
@@ -189,14 +189,14 @@ class PostController {
 
     static validateAndUploadPostImage(post) {
         return new Promise((resolve, reject) => {
-            if (category.coverImage.constructor !== String) {
+            if (post.coverImage.constructor !== String) {
                 FileHandler.checkFilesErrors(post.coverImage, 'image', 2)
                 .then(FileHandler.moveFiles)
                 .then((newImageName) => {
                     post.coverImage = newImageName;
                     resolve(post);
                 })
-                .catch(reject);
+                .catch((err) => reject(err));
             } else {
                 resolve(post);
             }
@@ -205,11 +205,11 @@ class PostController {
 
     static deletePost(id) {
         return new Promise((resolve, reject) => {
-            Post.findByIdAndRemove(id, (err, res) => {
+            Post.findByIdAndRemove(id, (err, deletedPost) => {
                 if (err) {
                     reject(['This post is not exist']);
                 } else {
-                    resolve(res);
+                    resolve(deletedPost);
                 }
             });
         });
@@ -217,13 +217,20 @@ class PostController {
 
     static checkAndDeleteOldImage(post) {
         return new Promise((resolve, reject) => {
-            if (post.existCoverImage != post.coverImage) {
-                FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + post.existCoverImage);
+            if (post.existPostCoverImage != post.coverImage) {
+                FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + post.existPostCoverImage);;
                 resolve(post);
             } else {
                 resolve(post);
             }
         });
+    }
+
+    static deleteImage(post) {
+        return new Promise((resolve, reject) => {
+            FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + post.coverImage);;
+            resolve(post);
+        });  
     }
     
     static checkPostTitleExistUpdate(post) {
@@ -232,8 +239,8 @@ class PostController {
                 resolve(post);
             } else {
                 PostController.checkByTitleExist(post)
-                    .then(resolve)
-                    .catch(reject);
+                    .then((post) => resolve(post))
+                    .catch((err) => reject(err))
             }
         });
     }
@@ -244,15 +251,15 @@ class PostController {
                 resolve(post);
             } else {
                 PostController.checkBySlugExist(post)
-                    .then(resolve)
-                    .catch(reject);
+                    .then((post) => resolve(post))
+                    .catch((err) => reject(err));
             }
         });
     }
 
-    static checkPostImageExistUpdate(category) {
+    static checkPostImageExistUpdate(post) {
         return new Promise((resolve, reject) => {
-            if (post.existPostCoverImage && !post.coverImage) {
+            if (post.coverImage == 'null' || post.coverImage == 'undefined') {
                 post.coverImage = post.existPostCoverImage;
                 resolve(post);
             } else {

@@ -15,6 +15,7 @@ export class EditPostsComponent implements OnInit {
 
   ngOnInit() {
     this.getPosts();
+    this.onSuccessPost();
   }
 
   getPosts(): void {
@@ -28,11 +29,21 @@ export class EditPostsComponent implements OnInit {
   onDeletePost(post): void {
     this.postService.deletePost(post._id).subscribe((res: any) => {
       if (res) {
-        console.log(res);
         this.posts.splice(this.posts.indexOf(post), 1);
       }
     }, (err) => {
       console.log(err);
+    });
+  }
+
+  onSuccessPost() {
+    this.postService.updatedPost.subscribe((updatedPost: any) => {
+      for (let i = 0; i < this.posts.length; i++) {
+        if (this.posts[i]._id === updatedPost._id) {
+          this.posts[i] = updatedPost;
+          break;
+        }
+      }
     });
   }
 }

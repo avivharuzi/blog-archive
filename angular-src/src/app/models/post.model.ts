@@ -11,13 +11,13 @@ export class Post {
   public coverImage: any;
   public existPostTitle?: string;
   public existPostSlug?: string;
-  public existPostImage?: any;
+  public existPostCoverImage?: any;
   public existPostCategory?: any;
 
   public constructor(
     _title: string, _slug: string, _author: string, _summary: string, _body: string,
     _tags: string[], _category: string, _isPublished: boolean, _publishDate: string, _coverImage: any,
-    _existPostTitle?: string, _existPostSlug?: string, _existPostImage?: any, _existPostCategory?: any
+    _existPostTitle?: string, _existPostSlug?: string, _existPostCoverImage?: any, _existPostCategory?: any
   ) {
     this.title = _title;
     this.slug = _slug;
@@ -31,7 +31,7 @@ export class Post {
     this.coverImage = _coverImage;
     this.existPostTitle = _existPostTitle;
     this.existPostSlug = _existPostSlug;
-    this.existPostImage = _existPostImage;
+    this.existPostCoverImage = _existPostCoverImage;
     this.existPostCategory = _existPostCategory;
   }
 }

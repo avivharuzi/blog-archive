@@ -36,4 +36,14 @@ export class EditCategoriesComponent implements OnInit {
       }
     });
   }
+
+  onDeleteCategory(category): void {
+    this.categoryService.deleteCategory(category._id).subscribe((res: any) => {
+      if (res) {
+        this.categories.splice(this.categories.indexOf(category), 1);
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  }
 }

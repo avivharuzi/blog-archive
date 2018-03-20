@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { CategoryService } from './../../../services/category/category.service';
+import { Component, OnInit, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
@@ -14,8 +16,12 @@ export class CategoriesTableComponent implements OnInit {
   @Input()
   public categories: any[];
 
+  @Output()
+  public deleteCategory: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(
     private modalService: BsModalService,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit() {
@@ -27,5 +33,9 @@ export class CategoriesTableComponent implements OnInit {
     this.modalRef = this.modalService.show(
       template
     );
+  }
+
+  delete(category) {
+    this.deleteCategory.emit(category);
   }
 }

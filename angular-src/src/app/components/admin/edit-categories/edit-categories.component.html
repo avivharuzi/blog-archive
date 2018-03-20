@@ -1,2 +1,2 @@
 <app-page-header [icon]="'pencil'" [header]="'Edit Categories'"></app-page-header>
-<app-categories-table [categories]="categories"></app-categories-table>
+<app-categories-table [categories]="categories" (deleteCategory)="onDeleteCategory($event)"></app-categories-table>

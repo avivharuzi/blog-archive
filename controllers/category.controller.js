@@ -71,12 +71,12 @@ class CategoryController {
 
                 CategoryController.checkCategoryNameExistUpdate(category)
                     .then(CategoryController.checkCategoryImageExistUpdate)
-                    .then(resolve)
-                    .catch(reject);
+                    .then((category) => resolve(category))
+                    .catch((err) => reject(err));
             } else {
                 CategoryController.checkCategoryName(category)
-                    .then(resolve)
-                    .catch(reject);
+                    .then((category) => resolve(category))
+                    .catch((err) => reject(err));
             }
         });
     }
@@ -122,8 +122,8 @@ class CategoryController {
                 resolve(category);
             } else {
                 CategoryController.checkCategoryName(category)
-                    .then(resolve)
-                    .catch(reject);
+                    .then((category) => resolve(category))
+                    .catch((reject) => reject(err));
             }
         });
     }
@@ -218,10 +218,48 @@ class CategoryController {
         return new Promise((resolve, reject) => {
             if (category.existCategoryImage != process.env.DEFAULT_CATEGORY_IMAGE) {
                 FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + category.existCategoryImage);
-                resolve(category);
-            } else {
-                resolve(category);
             }
+            resolve(category);
+        });
+    }
+
+    static checkCategoryForDelete(categoryId) {
+        return new Promise((resolve, reject) => {
+            Category.findById(categoryId)
+                .exec((err, existCategory) => {
+                    if (err) {
+                        reject(['There was problem while deleting this category']);
+                    } else if (existCategory) {
+                        if (existCategory.posts.length) {
+                            reject(['You cant delete this category because its belong to relative posts']);
+                        } else {
+                            resolve(existCategory);
+                        }
+                    } else {
+                        reject(['This category does not exist']);
+                    }
+                });
+        });
+    }
+
+    static deleteCategory(category) {
+        return new Promise((resolve, reject) => {
+            Category.findByIdAndRemove(category._id, (err, deletedCategory) => {
+                if (err) {
+                    reject(['This category does not exist']);
+                } else {
+                    resolve(deletedCategory);
+                }
+            });
+        });
+    }
+
+    static deleteImage(category) {
+        return new Promise((resolve, reject) => {
+            if (category.image != process.env.DEFAULT_CATEGORY_IMAGE) {
+                FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + category.image);
+            }
+            resolve(category);
         });
     }
 }

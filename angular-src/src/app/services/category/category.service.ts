@@ -1,13 +1,15 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+
+import { Category } from '../../models/category.model';
+import { ValidationService } from '../validation/validation.service';
 import { BASE_CATEGORY_URL } from './../../constants/urls';
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/throw';
-import { Category } from '../../models/category.model';
-import { ValidationService } from '../validation/validation.service';
 
 @Injectable()
 export class CategoryService {
@@ -38,6 +40,13 @@ export class CategoryService {
     const fd: FormData = this.validationService.getFormDataFromObject(category);
 
     return this.http.put(`${BASE_CATEGORY_URL}/${categoryId}`, fd).map((res: any) => {
+      return res;
+    })
+    .catch((err: HttpErrorResponse) => Observable.throw(err.error));
+  }
+
+  deleteCategory(categoryId: string): Observable<any> {
+    return this.http.delete(`${BASE_CATEGORY_URL}/${categoryId}`).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));

@@ -41,6 +41,9 @@ import { EditCategoriesComponent } from './components/admin/edit-categories/edit
 import { PageHeaderComponent } from './components/admin/page-header/page-header.component';
 import { PostFormComponent } from './components/forms/post-form/post-form.component';
 import { CategoryFormComponent } from './components/forms/category-form/category-form.component';
+import { PostsTableComponent } from './components/tables/posts-table/posts-table.component';
+import { CategoriesTableComponent } from './components/tables/categories-table/categories-table.component';
+import { PictureComponent } from './components/layouts/body/picture/picture.component';
 
 // Services
 import { ValidationService } from './services/validation/validation.service';
@@ -62,9 +65,6 @@ import { AuthGuard } from './guards/auth/auth.guard';
 
 // Interceptors
 import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
-import { PostsTableComponent } from './components/tables/posts-table/posts-table.component';
-import { CategoriesTableComponent } from './components/tables/categories-table/categories-table.component';
-import { PictureComponent } from './components/layouts/body/picture/picture.component';
 
 @NgModule({
   declarations: [

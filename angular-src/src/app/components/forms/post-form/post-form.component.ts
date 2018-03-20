@@ -34,9 +34,9 @@ export class PostFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getCategories();
     this.dateNow = new Date();
     this.createPostForm();
+    this.getCategories();
     this.checkPostEdit();
   }
 
@@ -127,6 +127,7 @@ export class PostFormComponent implements OnInit {
           this.resetCoverImage();
         }
       }, (err) => {
+        console.log(err);
         this.postMessage = err.errors;
         this.typeMessage = 'danger';
       });
@@ -134,7 +135,36 @@ export class PostFormComponent implements OnInit {
   }
 
   setEditPost() {
-    //
+    let tags = this.convertTagsToArr();
+
+    const post: Post = new Post(
+      this.postForm.get('title').value,
+      this.postForm.get('slug').value,
+      this.postForm.get('author').value,
+      this.postForm.get('summary').value,
+      this.postForm.get('body').value,
+      tags,
+      this.postForm.get('category').value,
+      this.postForm.get('isPublished').value,
+      this.postForm.get('publishDate').value.getTime(),
+      this.coverImage,
+      this.editPost.title,
+      this.editPost.slug,
+      this.editPost.coverImage,
+      this.editPost.category._id
+    );
+
+    this.postService.editPost(post, this.editPost._id).subscribe((res: any) => {
+      if (res) {
+        this.postMessage = res.message;
+        this.typeMessage = 'success';
+        this.postService.updatedPost.emit(res.data);
+      }
+    }, (err) => {
+      console.log(err);
+      this.postMessage = err.errors;
+      this.typeMessage = 'danger';
+    });
   }
 
   generateSlug(): void {
@@ -170,6 +200,9 @@ export class PostFormComponent implements OnInit {
   getCategories(): void {
     this.categoryService.getCategories().subscribe((res: any) => {
       this.categories = res;
+      if (!this.editPost) {
+        this.postForm.controls['category'].setValue(this.categories[0]._id);
+      }
     }, (err) => {
       console.log(err);
     });

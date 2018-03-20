@@ -20,27 +20,27 @@ import { AuthGuard } from './guards/auth/auth.guard';
 // Routes
 const appRoutes: Routes = [
   {
-    path: '', component: BlogComponent, children: [
+    path: '', component: BlogComponent, data: { title: 'Blog - Home Page' }, children: [
       {
         path: '', component: BlogHomeComponent
       }
     ]
   },
-  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard], children: [
+  { path: 'admin', component: AdminComponent, data: { title: 'Admin - Home Page' }, canActivate: [AuthGuard], children: [
       {
         path: '', component: AdminHomeComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard]
+        path: 'add-post', component: AddPostComponent, data: { title: 'Add Post' }, canActivate: [AuthGuard]
       },
       {
-        path: 'edit-posts', component: EditPostsComponent, canActivate: [AuthGuard]
+        path: 'edit-posts', component: EditPostsComponent, data: { title: 'Edit Post' }, canActivate: [AuthGuard]
       },
       {
-        path: 'add-category', component: AddCategoryComponent, canActivate: [AuthGuard]
+        path: 'add-category', component: AddCategoryComponent, data: { title: 'Add Category' }, canActivate: [AuthGuard]
       },
       {
-        path: 'edit-categories', component: EditCategoriesComponent, canActivate: [AuthGuard]
+        path: 'edit-categories', component: EditCategoriesComponent, data: { title: 'Edit Categories' }, canActivate: [AuthGuard]
       },
       {
         path:  '', redirectTo: '', pathMatch: 'full'
@@ -48,7 +48,7 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'admin/login', component: LoginFormComponent
+    path: 'admin/login', component: LoginFormComponent, data: { title: 'Login' }
   },
   {
     path:  '', redirectTo: '', pathMatch: 'full'

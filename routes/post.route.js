@@ -27,12 +27,13 @@ router.put('/:id', (req, res) => {
         .then(CategoryController.removePostFromCategoryUpdate)
         .then(PostController.updatePost)
         .then(CategoryController.addPostToCategory)
-        .then((updatePost) => RouteHandler.success(res, 'This post updated successfully', updatePost))
+        .then((updatedPost) => RouteHandler.success(res, 'This post updated successfully', updatedPost))
         .catch((err) => RouteHandler.error(res, 409, '', err));
 });
 
 router.delete('/:id', (req, res) => {
     PostController.deletePost(req.params.id)
+        .then(PostController.deleteImage)
         .then(CategoryController.removePostFromCategory)
         .then(() => RouteHandler.success(res, 'This post deleted successfully', ''))
         .catch((err) => RouteHandler.error(res, 409, '', err));
