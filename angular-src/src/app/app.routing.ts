@@ -26,25 +26,25 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: 'admin', component: AdminComponent, data: { title: 'Admin - Home Page' }, canActivate: [AuthGuard], children: [
+  { path: 'admin', component: AdminComponent, canActivateChild: [AuthGuard], data: { title: 'Admin - Home Page' }, children: [
       {
-        path: '', component: AdminHomeComponent, canActivate: [AuthGuard]
+        path: '', component: AdminHomeComponent
       },
       {
-        path: 'add-post', component: AddPostComponent, data: { title: 'Add Post' }, canActivate: [AuthGuard]
+        path: 'add-post', component: AddPostComponent, data: { title: 'Add Post' }
       },
       {
-        path: 'edit-posts', component: EditPostsComponent, data: { title: 'Edit Post' }, canActivate: [AuthGuard]
+        path: 'edit-posts', component: EditPostsComponent, data: { title: 'Edit Post' }
       },
       {
-        path: 'add-category', component: AddCategoryComponent, data: { title: 'Add Category' }, canActivate: [AuthGuard]
+        path: 'add-category', component: AddCategoryComponent, data: { title: 'Add Category' }
       },
       {
-        path: 'edit-categories', component: EditCategoriesComponent, data: { title: 'Edit Categories' }, canActivate: [AuthGuard]
+        path: 'edit-categories', component: EditCategoriesComponent, data: { title: 'Edit Categories' }
       },
       {
         path:  '', redirectTo: '', pathMatch: 'full'
-      },
+      }
     ]
   },
   {
@@ -55,7 +55,7 @@ const appRoutes: Routes = [
   },
   {
     path: '**', component: ErrorPageComponent
-  },
+  }
 ];
 
 const appRouter: ModuleWithProviders = RouterModule.forRoot(appRoutes);

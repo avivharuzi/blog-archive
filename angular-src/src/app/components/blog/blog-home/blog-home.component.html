@@ -1,3 +1,10 @@
-<p>
-  blog-home works!
-</p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 main-post">
+      <app-blog-post-list [posts]="posts"></app-blog-post-list>
+    </div>
+    <div class="col-lg-4 side-blog">
+      <app-blog-side></app-blog-side>
+    </div>
+  </div>
+</div>

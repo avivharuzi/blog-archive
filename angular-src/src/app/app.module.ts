@@ -23,9 +23,6 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 // Components
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/layouts/header/header.component';
-import { BodyComponent } from './components/layouts/body/body.component';
-import { FooterComponent } from './components/layouts/footer/footer.component';
 import { BlogHomeComponent } from './components/blog/blog-home/blog-home.component';
 import { ErrorPageComponent } from './components/errors/error-page/error-page.component';
 import { ErrorFormComponent } from './components/errors/error-form/error-form.component';
@@ -43,7 +40,7 @@ import { PostFormComponent } from './components/forms/post-form/post-form.compon
 import { CategoryFormComponent } from './components/forms/category-form/category-form.component';
 import { PostsTableComponent } from './components/tables/posts-table/posts-table.component';
 import { CategoriesTableComponent } from './components/tables/categories-table/categories-table.component';
-import { PictureComponent } from './components/layouts/body/picture/picture.component';
+import { PictureComponent } from './components/blog/picture/picture.component';
 
 // Services
 import { ValidationService } from './services/validation/validation.service';
@@ -65,13 +62,17 @@ import { AuthGuard } from './guards/auth/auth.guard';
 
 // Interceptors
 import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
+import { BlogHeaderComponent } from './components/blog/blog-header/blog-header.component';
+import { BlogPostListComponent } from './components/blog/blog-post-list/blog-post-list.component';
+import { BlogPostItemComponent } from './components/blog/blog-post-list/blog-post-item/blog-post-item.component';
+import { BlogSideComponent } from './components/blog/blog-side/blog-side.component';
+import { BlogSideCategoriesComponent } from './components/blog/blog-side/blog-side-categories/blog-side-categories.component';
+import { BlogSideTagsComponent } from './components/blog/blog-side/blog-side-tags/blog-side-tags.component';
+import { BlogSideRecentPostsComponent } from './components/blog/blog-side/blog-side-recent-posts/blog-side-recent-posts.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    BodyComponent,
-    FooterComponent,
     ErrorPageComponent,
     ErrorFormComponent,
     CapitalizePipe,
@@ -95,7 +96,14 @@ import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
     CategoryFormComponent,
     PostsTableComponent,
     CategoriesTableComponent,
-    PictureComponent
+    PictureComponent,
+    BlogHeaderComponent,
+    BlogPostListComponent,
+    BlogPostItemComponent,
+    BlogSideComponent,
+    BlogSideCategoriesComponent,
+    BlogSideTagsComponent,
+    BlogSideRecentPostsComponent
   ],
   imports: [
     BrowserModule,

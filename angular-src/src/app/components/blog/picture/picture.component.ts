@@ -1,5 +1,6 @@
-import { BASE_IMAGE_PATH } from '../../../../constants/urls';
 import { Component, OnInit, Input } from '@angular/core';
+
+import { BASE_IMAGE_PATH } from '../../../constants/urls';
 
 @Component({
   selector: 'app-picture',

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, CanActivateChild } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanActivateChild {
   constructor(
     private authService: AuthService
   ) { }
@@ -22,5 +22,9 @@ export class AuthGuard implements CanActivate {
         resolve(false);
       }
     });
+  }
+
+  canActivateChild(): Promise<boolean> {
+    return this.canActivate();
   }
 }

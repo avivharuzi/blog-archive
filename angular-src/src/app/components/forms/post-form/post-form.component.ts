@@ -218,19 +218,30 @@ export class PostFormComponent implements OnInit {
     return tags;
   }
 
+  convertTagsToObj(tags: any[]): any[] {
+    let result = tags.map(tag => ({ value: tag, display: tag }));
+    console.log(result);
+    return result;
+  }
+
   checkPostEdit() {
     if (this.editPost) {
+      console.log(this.editPost);
+      let tags = this.convertTagsToObj(this.editPost.tags);
+
       this.postForm.setValue({
         title: this.editPost.title,
         slug: this.editPost.slug,
         author: this.editPost.author,
         summary: this.editPost.summary,
         body: this.editPost.body,
-        tags: this.editPost.tags,
+        tags: tags,
         category: this.editPost.category._id,
         isPublished: this.editPost.isPublished,
         publishDate: new Date(this.editPost.publishDate)
       });
+
+      console.log(this.postForm.get('tags').value);
     }
   }
 }
