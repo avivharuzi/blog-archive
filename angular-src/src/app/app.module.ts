@@ -41,12 +41,22 @@ import { CategoryFormComponent } from './components/forms/category-form/category
 import { PostsTableComponent } from './components/tables/posts-table/posts-table.component';
 import { CategoriesTableComponent } from './components/tables/categories-table/categories-table.component';
 import { PictureComponent } from './components/blog/picture/picture.component';
+import { BlogHeaderComponent } from './components/blog/blog-header/blog-header.component';
+import { BlogPostListComponent } from './components/blog/blog-post-list/blog-post-list.component';
+import { BlogPostItemComponent } from './components/blog/blog-post-list/blog-post-item/blog-post-item.component';
+import { BlogSideComponent } from './components/blog/blog-side/blog-side.component';
+import { BlogSideCategoriesComponent } from './components/blog/blog-side/blog-side-categories/blog-side-categories.component';
+import { BlogSideTagsComponent } from './components/blog/blog-side/blog-side-tags/blog-side-tags.component';
+import { BlogSideRecentPostsComponent } from './components/blog/blog-side/blog-side-recent-posts/blog-side-recent-posts.component';
+import { AdminCategoriesChartComponent } from './components/charts/admin-categories-chart/admin-categories-chart.component';
+import { AdminBlogChartComponent } from './components/charts/admin-blog-chart/admin-blog-chart.component';
 
 // Services
 import { ValidationService } from './services/validation/validation.service';
 import { AuthService } from './services/auth/auth.service';
 import { CategoryService } from './services/category/category.service';
 import { PostService } from './services/post/post.service';
+import { BlogService } from './services/blog/blog.service';
 
 // Pipes
 import { SearchPipe } from './pipes/search/search.pipe';
@@ -62,13 +72,11 @@ import { AuthGuard } from './guards/auth/auth.guard';
 
 // Interceptors
 import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
-import { BlogHeaderComponent } from './components/blog/blog-header/blog-header.component';
-import { BlogPostListComponent } from './components/blog/blog-post-list/blog-post-list.component';
-import { BlogPostItemComponent } from './components/blog/blog-post-list/blog-post-item/blog-post-item.component';
-import { BlogSideComponent } from './components/blog/blog-side/blog-side.component';
-import { BlogSideCategoriesComponent } from './components/blog/blog-side/blog-side-categories/blog-side-categories.component';
-import { BlogSideTagsComponent } from './components/blog/blog-side/blog-side-tags/blog-side-tags.component';
-import { BlogSideRecentPostsComponent } from './components/blog/blog-side/blog-side-recent-posts/blog-side-recent-posts.component';
+import { BlogPostDetailsComponent } from './components/blog/blog-post-details/blog-post-details.component';
+import { BlogCategoryListComponent } from './components/blog/blog-category-list/blog-category-list.component';
+import { BlogCategoryItemComponent } from './components/blog/blog-category-list/blog-category-item/blog-category-item.component';
+import { BlogPostsComponent } from './components/blog/blog-posts/blog-posts.component';
+import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -103,7 +111,14 @@ import { BlogSideRecentPostsComponent } from './components/blog/blog-side/blog-s
     BlogSideComponent,
     BlogSideCategoriesComponent,
     BlogSideTagsComponent,
-    BlogSideRecentPostsComponent
+    BlogSideRecentPostsComponent,
+    BlogPostDetailsComponent,
+    BlogCategoryListComponent,
+    BlogCategoryItemComponent,
+    BlogPostsComponent,
+    AdminCategoriesChartComponent,
+    AdminBlogChartComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -130,6 +145,7 @@ import { BlogSideRecentPostsComponent } from './components/blog/blog-side/blog-s
     AuthGuard,
     CategoryService,
     PostService,
+    BlogService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

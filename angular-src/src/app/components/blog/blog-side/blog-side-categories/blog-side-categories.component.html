@@ -1,7 +1,4 @@
 <h3 class="side-title">Categories</h3>
 <p>
-  <span class="category-side">
-    <i class="fa fa-dot-circle-o mr-2"></i>Ruby</span>
-  <span class="category-side">
-    <i class="fa fa-dot-circle-o mr-2"></i>Php</span>
+  <span *ngFor="let category of categories" [routerLink]="['/categories', category.slug]" class="category-side"><i class="fa fa-dot-circle-o mr-2"></i>{{ category.name | ucwords }}</span>
 </p>

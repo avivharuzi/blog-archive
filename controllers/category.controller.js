@@ -17,10 +17,82 @@ class CategoryController {
         });
     }
 
+    static getCategoriesWithPostsThatPublished() {
+        return new Promise((resolve, reject) => {
+            Category.find({
+                posts: {
+                    $gt: []
+                }
+            })
+            .exec((err, categories) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(categories);
+                }
+            });
+        });
+    }
+
+    static getCategoryBySlug(slug) {
+        return new Promise((resolve, reject) => {
+            Category.findOne({
+                slug: slug
+            }).exec((err, categoryExist) => {
+                    if (err) {
+                        reject(err);
+                    } else if (categoryExist) {
+                        resolve(categoryExist);
+                    } else {
+                        reject(['No category exist with this slug']);
+                    }
+                });
+        });
+    }
+
+    static getCategoriesWithHighestPosts(numberOfCategories) {
+        return new Promise((resolve, reject) => {
+            Category.find().sort({ posts: -1 }).limit(numberOfCategories)
+                .exec((err, categories) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        let newCategories = [];
+                        for (let category of categories) {
+                            newCategories.push({
+                                'name': category.name.replace(/\b\w/g, l => l.toUpperCase()),
+                                'value': category.posts.length
+                            });
+                        }
+                        resolve(newCategories);
+                    }
+                });
+        });
+    }
+
+    static getNumberOfCategories(arr) {
+        return new Promise((resolve, reject) => {
+            Category.find().count().exec((err, categoryCount) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    arr.push({
+                        'name': 'Categories',
+                        'value': categoryCount
+                    });
+                    resolve(arr);
+                }
+            });
+        });
+    }
+
     static saveCategory(category) {
         return new Promise((resolve, reject) => {
+            let slug = ValidationHandler.slugify(category.name);
+
             Category.create({
                 name: category.name,
+                slug: slug,
                 image: category.image,
                 posts: []
             }, (err, newCategory) => {
@@ -35,8 +107,11 @@ class CategoryController {
 
     static updateCategory(category) {
         return new Promise((resolve, reject) => {
+            let slug = ValidationHandler.slugify(category.name);
+
             Category.findByIdAndUpdate(category.id, {
                 name: category.name,
+                slug: slug,
                 image: category.image
             }, {
                 new: true

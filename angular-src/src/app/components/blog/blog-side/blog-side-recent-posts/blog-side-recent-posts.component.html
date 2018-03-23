@@ -1,10 +1,10 @@
-<div class="col-lg-12 mb-5">
+<div *ngFor="let recentPost of recentPosts" [routerLink]="['/posts', recentPost.slug]" class="col-lg-12 mb-5">
   <div class="recent-post text-left">
     <div class="hover-post text-center">
       <i class="fa fa-link"></i>
     </div>
-    <h5>About Ruby</h5>
-    <img class="w-100" src="https://daveismyname.blog/assets/images/blog/laravel-framework/laravel-apply-a-query-constraint-with-global-scopes%20.png">
-    <p class="time">9th Feb 2018 06:52 AM</p>
+    <h5>{{ recentPost.title | ucwords }}</h5>
+    <app-picture [src]="recentPost.coverImage"></app-picture>
+    <p class="time">{{ recentPost.publishDate | date:'medium' }}</p>
   </div>
 </div>

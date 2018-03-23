@@ -1,11 +1,11 @@
 <div class="row mb-5">
   <div class="col-lg-12">
-    <app-picture [src]="post.coverImage"></app-picture>
+    <app-picture [src]="post.coverImage" [routerLink]="['/posts', post.slug]"></app-picture>
   </div>
   <div class="col-lg-12">
-    <h3 class="post-title">
+    <h3 class="post-title" [routerLink]="['/posts', post.slug]">
       <i class="fa fa-newspaper-o mr-3"></i>{{ post.title | ucwords }}</h3>
-    <h5 class="category">
+    <h5 [routerLink]="['/categories', post.category.slug]" class="category">
       <span>
         <i class="fa fa-dot-circle-o mr-2"></i>{{ post.category.name | ucwords }}</span>
     </h5>
@@ -23,7 +23,7 @@
         </p>
       </div>
       <div class="col-lg-4">
-        <button class="btn-post">Continue Reading</button>
+        <button class="btn-post" [routerLink]="['/posts', post.slug]">Continue Reading</button>
       </div>
     </div>
     <hr>

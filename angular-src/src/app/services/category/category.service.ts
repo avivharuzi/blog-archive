@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Category } from '../../models/category.model';
 import { ValidationService } from '../validation/validation.service';
-import { BASE_CATEGORY_URL } from './../../constants/urls';
+import { BASE_CATEGORY_URL, CATEGORY_HIGHEST_POSTS_URL } from './../../constants/urls';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -22,6 +22,13 @@ export class CategoryService {
 
   getCategories(): Observable<any> {
     return this.http.get(BASE_CATEGORY_URL).map((res: any) => {
+      return res;
+    })
+    .catch((err: HttpErrorResponse) => Observable.throw(err.error));
+  }
+
+  getCategoriesWithHighestPosts(): Observable<any> {
+    return this.http.get(`${CATEGORY_HIGHEST_POSTS_URL}/5`).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-blog-side-categories',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./blog-side-categories.component.css']
 })
 export class BlogSideCategoriesComponent implements OnInit {
+  @Input()
+  public categories: any[];
 
   constructor() { }
 

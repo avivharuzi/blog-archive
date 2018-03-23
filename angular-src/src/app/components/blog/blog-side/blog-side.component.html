@@ -1,12 +1,12 @@
 <div class="row text-center">
   <div class="col-lg-12 mb-5">
-    <app-blog-side-categories></app-blog-side-categories>
+    <app-blog-side-categories [categories]="categories"></app-blog-side-categories>
   </div>
   <div class="col-lg-12 mb-5">
-    <app-blog-side-tags></app-blog-side-tags>
+    <app-blog-side-tags [tags]="tags"></app-blog-side-tags>
   </div>
   <div class="col-lg-12">
     <h3 class="side-title text-center">Recent Posts</h3>
   </div>
-  <app-blog-side-recent-posts></app-blog-side-recent-posts>
+  <app-blog-side-recent-posts [recentPosts]="recentPosts"></app-blog-side-recent-posts>
 </div>

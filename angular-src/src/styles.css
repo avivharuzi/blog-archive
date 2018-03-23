@@ -27,6 +27,10 @@
   max-width: 800px !important;
 }
 
+.ngx-charts-outer.ng-trigger.ng-trigger-animationState {
+  margin: auto auto;
+}
+
 #mainBlog {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
@@ -85,6 +89,17 @@
 
 /* Post */
 
+.main-post-details img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+.main-post-details h1 {
+  font-weight: 300;
+  color: #777777;
+}
+
 .main-post {
   border-right: 1px solid #f6f6f6;
 }
@@ -99,6 +114,7 @@
   background-repeat: no-repeat;
   position: relative;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .main-post h3 {
@@ -111,7 +127,7 @@
   cursor: pointer;
 }
 
-.main-post .time {
+.time {
   font-style: italic;
   font-weight: 300;
   color: #666666;
@@ -206,6 +222,8 @@
   color: #fff;
   margin-right: 1rem;
   padding: 5px 10px;
+  display: block;
+  margin-bottom: 1rem;
 }
 
 .tag-side {
@@ -214,6 +232,8 @@
   color: #fff;
   margin-right: 1rem;
   padding: 5px 10px;
+  display: block;
+  margin-bottom: 1rem;
 }
 
 .btn-post {
@@ -249,6 +269,33 @@
 
 .tags span:hover {
   opacity: 0.8;
+}
+
+.category-item {
+  border: 1px solid #f4f4f4;
+  cursor: pointer;
+  outline: none;
+}
+
+.category-item h3 {
+  color: #777;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.category-item img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.btn-back {
+  outline: none;
+  border: none;
+  color: #777777;
+  background: #fff;
+  padding: 5px;
+  cursor: pointer;
 }
 
 /* Media */

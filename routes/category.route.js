@@ -10,6 +10,12 @@ router.get('/', (req, res) => {
         .catch((err) => RouteHandler.error(res, 404, 'Categories not found'));
 });
 
+router.get('/highest/:numberOfCategories', (req, res) => {
+    CategoryController.getCategoriesWithHighestPosts(+req.params.numberOfCategories)
+        .then((categories) => res.send(categories))
+        .catch((err) => RouteHandler.error(res, 409, 'There was problem by getting categories', err));
+});
+
 router.post('/', (req, res) => {
     CategoryController.validateCategory(req.body, req.files)
         .then(CategoryController.validateAndUploadCategoryImage)

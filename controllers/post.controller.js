@@ -9,6 +9,7 @@ class PostController {
     static getPosts() {
         return new Promise((resolve, reject) => {
             Post.find()
+                .sort({ publishDate: -1 })
                 .populate('category')
                 .exec((err, posts) => {
                     if (err) {
@@ -20,6 +21,97 @@ class PostController {
                         resolve(posts);
                     }
                 });
+        });
+    }
+
+    static getPostsPublished() {
+        return new Promise((resolve, reject) => {
+            Post.find({
+                isPublished: true
+            })
+            .sort({ publishDate: -1 })
+            .populate('category')
+            .exec((err, posts) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    posts.map((post) => {
+                        post.body = ValidationHandler.decodeHtml(post.body);
+                    });
+                    resolve(posts);
+                }
+            });
+        });
+    }
+
+    static getNumberOfPosts(arr) {
+        return new Promise((resolve, reject) => {
+            Post.find().count().exec((err, postCount) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    arr.push({
+                        'name': 'Posts',
+                        'value': postCount
+                    });
+                    resolve(arr);
+                }
+            });
+        });
+    }
+
+    static getPostsByCategorySlug(categorySlug) {
+        return new Promise((resolve, reject) => {
+            CategoryController.getCategoryBySlug(categorySlug)
+                .then((categoryExist) => {
+                    Post.find({
+                        category: categoryExist._id,
+                        isPublished: true
+                    })
+                    .populate('category')
+                    .exec((err, posts) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(posts);
+                        }
+                    });
+                })
+                .catch((err) => reject(err));
+        });
+    }
+
+    static getRecentPosts(numberOfPosts) {
+        return new Promise((resolve, reject) => {
+            Post.find({ isPublished: true })
+                .sort({ publishDate: -1 })
+                .limit(numberOfPosts)
+                    .exec((err, posts) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(posts);
+                        }
+                    });
+        });
+    }
+
+    static getPostBySlug(slug) {
+        return new Promise((resolve, reject) => {
+            Post.findOne({
+                slug: slug
+            })
+            .populate('category')
+            .exec((err, post) => {
+                if (err) {
+                    reject(err);
+                } else if (post) {
+                    post.body = ValidationHandler.decodeHtml(post.body);
+                    resolve(post);
+                } else {
+                    reject(['No post was found']);
+                }
+            });
         });
     }
 
@@ -37,7 +129,7 @@ class PostController {
         }
 
         return new Promise((resolve, reject) => {
-            PostController.getPosts()
+            PostController.getPostsPublished()
                 .then((posts) => {
                     let tags = [];
                     for (let post of posts) {

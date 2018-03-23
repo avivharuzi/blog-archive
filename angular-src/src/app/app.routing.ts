@@ -13,6 +13,9 @@ import { AdminHomeComponent } from './components/admin/admin-home/admin-home.com
 import { EditPostsComponent } from './components/admin/edit-posts/edit-posts.component';
 import { AddCategoryComponent } from './components/admin/add-category/add-category.component';
 import { EditCategoriesComponent } from './components/admin/edit-categories/edit-categories.component';
+import { BlogPostDetailsComponent } from './components/blog/blog-post-details/blog-post-details.component';
+import { BlogCategoryListComponent } from './components/blog/blog-category-list/blog-category-list.component';
+import { BlogPostsComponent } from './components/blog/blog-posts/blog-posts.component';
 
 // Guards
 import { AuthGuard } from './guards/auth/auth.guard';
@@ -23,6 +26,18 @@ const appRoutes: Routes = [
     path: '', component: BlogComponent, data: { title: 'Blog - Home Page' }, children: [
       {
         path: '', component: BlogHomeComponent
+      },
+      {
+        path: 'posts', component: BlogPostsComponent
+      },
+      {
+        path: 'posts/:slug', component: BlogPostDetailsComponent
+      },
+      {
+        path: 'categories', component: BlogCategoryListComponent
+      },
+      {
+        path: 'categories/:slug', component: BlogHomeComponent
       }
     ]
   },

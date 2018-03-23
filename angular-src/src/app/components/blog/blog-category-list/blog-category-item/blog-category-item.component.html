@@ -1,0 +1,4 @@
+<div *ngIf="category" [routerLink]="['/categories', category.slug]" class="text-center category-item">
+  <h3>{{ category.name | ucwords }}</h3>
+  <app-picture [src]="category.image"></app-picture>
+</div>

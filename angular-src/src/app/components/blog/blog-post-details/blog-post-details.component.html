@@ -1,0 +1,10 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div *ngIf="post" class="col-lg-12 main-post-details">
+      <h1><i class="fa fa-newspaper-o mr-3"></i>{{ post.title | ucwords }}<span (click)="goBack()" class="btn-back float-right"><i class="fa fa-long-arrow-left"></i></span></h1>
+      <p class="time mt-4 mb-4"><i class="fa fa-user mr-3"></i>{{ post.author | ucwords }}<i class="fa fa-calendar ml-3 mr-3"></i>{{ post.publishDate | date:'longDate' }}<i class="fa fa-clock-o ml-3 mr-3"></i>{{ post.publishDate | date:'shortTime' }}</p>
+      <app-picture [src]="post.coverImage"></app-picture>
+      <div class="mt-4 mb-4" [innerHTML]="post.body | safeHtml"></div>
+    </div>
+  </div>
+</div>

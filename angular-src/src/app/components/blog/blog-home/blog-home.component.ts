@@ -1,29 +1,61 @@
-import { Component, OnInit } from '@angular/core';
-import { PostService } from '../../../services/post/post.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { BlogService } from '../../../services/blog/blog.service';
 
 @Component({
   selector: 'app-blog-home',
   templateUrl: './blog-home.component.html',
   styleUrls: ['./blog-home.component.css']
 })
-export class BlogHomeComponent implements OnInit {
+export class BlogHomeComponent implements OnInit, OnDestroy {
+  public paramsSubscription: Subscription;
   public posts: any[];
+  public slug: string;
 
   constructor(
-    private postService: PostService
+    private route: ActivatedRoute,
+    private blogService: BlogService
   ) { }
 
   ngOnInit() {
-    this.getPosts();
+    this.checkAndGetPosts();
+  }
+
+  checkAndGetPosts() {
+    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
+      this.slug = params['slug'];
+        if (this.slug) {
+          this.getPostsByCategorySlug();
+        } else {
+          this.getPosts();
+        }
+    });
+  }
+
+  getPostsByCategorySlug() {
+    this.blogService.getPostsByCategorySlug(this.slug).subscribe((res: any) => {
+      if (res) {
+        this.posts = res;
+        console.log(res);
+      }
+    }, (err) => {
+      this.getPosts();
+    });
   }
 
   getPosts(): void {
-    this.postService.getPosts().subscribe((res: any) => {
+    this.blogService.getBlogPosts().subscribe((res: any) => {
       if (res) {
         this.posts = res;
       }
     }, (err) => {
       console.log(err);
     });
+  }
+
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
   }
 }

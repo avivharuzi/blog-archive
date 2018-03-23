@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-blog-side-tags',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./blog-side-tags.component.css']
 })
 export class BlogSideTagsComponent implements OnInit {
+  @Input()
+  public tags: any[];
 
   constructor() { }
 
