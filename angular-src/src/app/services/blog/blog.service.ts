@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { GET_BLOG_POSTS, GET_BLOG_TAGS, GET_BLOG_CATEGORIES, GET_RECENT_POSTS,
-GET_POST_BY_SLUG, GET_OVERALL_DATA_URL, GET_POSTS_BY_CATEGORY_SLUG_URL } from '../../constants/urls';
+GET_POST_BY_SLUG, GET_OVERALL_DATA_URL, GET_POSTS_BY_CATEGORY_SLUG_URL, GET_POSTS_BY_TAG, GET_POSTS_BY_SEARCH } from '../../constants/urls';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -44,15 +44,22 @@ export class BlogService {
     .catch((err: HttpErrorResponse) => Observable.throw(err));
   }
 
-  getPostBySlug(slug): Observable<any> {
+  getPostBySlug(slug: string): Observable<any> {
     return this.http.get(`${GET_POST_BY_SLUG}/${slug}`).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err));
   }
 
-  getPostsByCategorySlug(slug): Observable<any> {
+  getPostsByCategorySlug(slug: string): Observable<any> {
     return this.http.get(`${GET_POSTS_BY_CATEGORY_SLUG_URL}/${slug}`).map((res: any) => {
+      return res;
+    })
+    .catch((err: HttpErrorResponse) => Observable.throw(err));
+  }
+
+  getPostsByTag(tag: string): Observable<any> {
+    return this.http.get(`${GET_POSTS_BY_TAG}/${tag}`).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err));
@@ -60,6 +67,13 @@ export class BlogService {
 
   getOverallData(): Observable<any> {
     return this.http.get(GET_OVERALL_DATA_URL).map((res: any) => {
+      return res;
+    })
+    .catch((err: HttpErrorResponse) => Observable.throw(err));
+  }
+
+  searchPosts(query) {
+    return this.http.get(`${GET_POSTS_BY_SEARCH}/${query}`).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err));

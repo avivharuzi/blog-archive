@@ -20,8 +20,6 @@ export class BlogPostsComponent implements OnInit {
   getPosts() {
     this.blogService.getBlogPosts().subscribe((res: any) => {
       this.posts = res;
-    }, (err) => {
-      console.log(err);
     });
   }
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { BlogService } from '../../../services/blog/blog.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog-home',
@@ -12,34 +13,44 @@ import { BlogService } from '../../../services/blog/blog.service';
 export class BlogHomeComponent implements OnInit, OnDestroy {
   public paramsSubscription: Subscription;
   public posts: any[];
-  public slug: string;
 
   constructor(
     private route: ActivatedRoute,
-    private blogService: BlogService
+    private blogService: BlogService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
     this.checkAndGetPosts();
   }
 
-  checkAndGetPosts() {
+  checkAndGetPosts(): void {
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
-      this.slug = params['slug'];
-        if (this.slug) {
-          this.getPostsByCategorySlug();
+      const slug: string = params['slug'];
+      const tag: string = params['tag'];
+        if (slug) {
+          this.getPostsByCategory(slug);
+        } else if (tag) {
+          this.getPostsByTag(tag);
         } else {
           this.getPosts();
         }
     });
   }
 
-  getPostsByCategorySlug() {
-    this.blogService.getPostsByCategorySlug(this.slug).subscribe((res: any) => {
-      if (res) {
-        this.posts = res;
-        console.log(res);
-      }
+  getPostsByCategory(slug: string): void {
+    this.blogService.getPostsByCategorySlug(slug).subscribe((res: any) => {
+      this.posts = res;
+      this.setTitle(slug);
+    }, (err) => {
+      this.getPosts();
+    });
+  }
+
+  getPostsByTag(tag: string): void {
+    this.blogService.getPostsByTag(tag).subscribe((res: any) => {
+      this.posts = res;
+      this.setTitle(tag);
     }, (err) => {
       this.getPosts();
     });
@@ -53,6 +64,14 @@ export class BlogHomeComponent implements OnInit, OnDestroy {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  setTitle(newTitle: string) {
+    this.titleService.setTitle(this.getUcwords(newTitle));
+  }
+
+  getUcwords(str) {
+    return (str + '').replace(/^(.)|\s+(.)/g, ($1) => $1.toUpperCase());
   }
 
   ngOnDestroy() {

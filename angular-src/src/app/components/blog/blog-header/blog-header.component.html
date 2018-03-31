@@ -4,9 +4,15 @@
     <a routerLink="/posts">Posts</a>
     <a routerLink="/categories">Categories</a>
     <div class="search-container">
-      <form>
-        <input type="text" placeholder="Search" name="search">
+      <form style="position: relative">
+        <input type="text" [(ngModel)]="search" (keyup)="onKeyup()" placeholder="Search" name="search">
         <button type="submit"><i class="fa fa-search"></i></button>
+        <div *ngIf="searchResults.length" class="autocomplete-items">
+          <div *ngFor="let result of searchResults" (click)="renmoveList()" [routerLink]="['/posts', result.slug]">
+            <img class="mr-3" [src]="'http://localhost:3000/images/' + result.coverImage" width="30px" height="30px">
+            {{ result.title | ucwords }}
+          </div>
+        </div>
       </form>
     </div>
   </div>

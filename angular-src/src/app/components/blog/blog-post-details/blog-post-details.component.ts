@@ -4,6 +4,7 @@ import { Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { BlogService } from '../../../services/blog/blog.service';
 import { Location } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog-post-details',
@@ -19,32 +20,38 @@ export class BlogPostDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private blogService: BlogService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
     this.checkAndGetPost();
   }
 
-  checkAndGetPost() {
+  checkAndGetPost(): void {
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
       this.slug = params['slug'];
       this.blogService.getPostBySlug(this.slug).subscribe((res: any) => {
-        if (res) {
-          this.post = res;
-          console.log(res);
-        }
+        this.post = res;
+        this.titleService.setTitle(this.getUcwords(this.post.title));
+        window.scrollTo(0, 0);
       }, (err) => {
         this.router.navigate(['/']);
       });
     });
   }
 
-  goBack() {
+  goBack(): void {
     this.location.back();
   }
 
   ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+  }
+
+  getUcwords(str) {
+    return (str + '').replace(/^(.)|\s+(.)/g, ($1) => $1.toUpperCase());
   }
 }

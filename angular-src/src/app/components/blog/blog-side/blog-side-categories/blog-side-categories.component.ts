@@ -13,5 +13,4 @@ export class BlogSideCategoriesComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

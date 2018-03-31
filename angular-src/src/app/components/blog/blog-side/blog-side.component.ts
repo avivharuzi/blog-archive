@@ -23,31 +23,19 @@ export class BlogSideComponent implements OnInit {
 
   getCategories(): void {
     this.blogService.getBlogCategories().subscribe((res: any) => {
-      if (res) {
-        this.categories = res;
-      }
-    }, (err) => {
-      console.log(err);
+      this.categories = res;
     });
   }
 
   getTags(): void {
     this.blogService.getBlogTags().subscribe((res: any) => {
-      if (res) {
-        this.tags = res;
-      }
-    }, (err) => {
-      console.log(err);
+      this.tags = res;
     });
   }
 
   getRecentPosts(): void {
     this.blogService.getRecentPosts().subscribe((res: any) => {
-      if (res) {
-        this.recentPosts = res;
-      }
-    }, (err) => {
-      console.log(err);
+      this.recentPosts = res;
     });
   }
 }

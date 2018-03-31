@@ -30,6 +30,18 @@ router.get('/posts/recent/:numberOfPosts', (req, res) => {
         .catch((err) => RouteHandler.error(res, 409, 'There was problem by getting posts', err));
 });
 
+router.get('/posts/search/:query', (req, res) => {
+    PostController.getPostsByTitle(req.params.query)
+        .then((posts) => res.send(posts))
+        .catch((err) => RouteHandler.error(res, 409, 'There was problem by getting posts', err));
+});
+
+router.get('/posts/tag/:tag', (req, res) => {
+    PostController.getPostsByTag(req.params.tag)
+        .then((posts) => res.send(posts))
+        .catch((err) => RouteHandler.error(res, 409, 'There was problem by getting posts', err));
+});
+
 router.get('/tags', (req, res) => {
     PostController.getTags()
         .then((tags) => res.send(tags))

@@ -11,7 +11,6 @@ export class AdminCategoriesChartComponent implements OnInit {
 
   public view: any[] = [700, 400];
 
-  // options
   public showXAxis = true;
   public showYAxis = true;
   public gradient = false;

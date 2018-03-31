@@ -50,6 +50,10 @@ import { BlogSideTagsComponent } from './components/blog/blog-side/blog-side-tag
 import { BlogSideRecentPostsComponent } from './components/blog/blog-side/blog-side-recent-posts/blog-side-recent-posts.component';
 import { AdminCategoriesChartComponent } from './components/charts/admin-categories-chart/admin-categories-chart.component';
 import { AdminBlogChartComponent } from './components/charts/admin-blog-chart/admin-blog-chart.component';
+import { BlogPostDetailsComponent } from './components/blog/blog-post-details/blog-post-details.component';
+import { BlogCategoryListComponent } from './components/blog/blog-category-list/blog-category-list.component';
+import { BlogCategoryItemComponent } from './components/blog/blog-category-list/blog-category-item/blog-category-item.component';
+import { BlogPostsComponent } from './components/blog/blog-posts/blog-posts.component';
 
 // Services
 import { ValidationService } from './services/validation/validation.service';
@@ -63,6 +67,7 @@ import { SearchPipe } from './pipes/search/search.pipe';
 import { CapitalizePipe } from './pipes/capitalize/capitalize.pipe';
 import { UcwordsPipe } from './pipes/ucwords/ucwords.pipe';
 import { DefaultPipe } from './pipes/default/default.pipe';
+import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
 
 // Directives
 import { DefaultImageDirective } from './directives/default-image/default-image.directive';
@@ -72,11 +77,6 @@ import { AuthGuard } from './guards/auth/auth.guard';
 
 // Interceptors
 import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
-import { BlogPostDetailsComponent } from './components/blog/blog-post-details/blog-post-details.component';
-import { BlogCategoryListComponent } from './components/blog/blog-category-list/blog-category-list.component';
-import { BlogCategoryItemComponent } from './components/blog/blog-category-list/blog-category-item/blog-category-item.component';
-import { BlogPostsComponent } from './components/blog/blog-posts/blog-posts.component';
-import { SafeHtmlPipe } from './pipes/safe-html/safe-html.pipe';
 
 @NgModule({
   declarations: [

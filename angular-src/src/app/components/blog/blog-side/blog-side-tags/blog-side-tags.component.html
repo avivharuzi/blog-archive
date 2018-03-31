@@ -1,4 +1,4 @@
 <h3 class="side-title text-center">Tags</h3>
 <p>
-  <span *ngFor="let tag of tags" class="tag-side"><i class="fa fa-hashtag mr-2"></i>{{ tag | ucwords }}</span>
+  <span *ngFor="let tag of tags" [routerLink]="['/tags', tag]" class="badge-side"><i class="fa fa-hashtag mr-2"></i>{{ tag | ucwords }}</span>
 </p>

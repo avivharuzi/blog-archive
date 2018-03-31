@@ -127,7 +127,6 @@ export class PostFormComponent implements OnInit {
           this.resetCoverImage();
         }
       }, (err) => {
-        console.log(err);
         this.postMessage = err.errors;
         this.typeMessage = 'danger';
       });
@@ -161,7 +160,6 @@ export class PostFormComponent implements OnInit {
         this.postService.updatedPost.emit(res.data);
       }
     }, (err) => {
-      console.log(err);
       this.postMessage = err.errors;
       this.typeMessage = 'danger';
     });
@@ -220,13 +218,11 @@ export class PostFormComponent implements OnInit {
 
   convertTagsToObj(tags: any[]): any[] {
     let result = tags.map(tag => ({ value: tag, display: tag }));
-    console.log(result);
     return result;
   }
 
   checkPostEdit() {
     if (this.editPost) {
-      console.log(this.editPost);
       let tags = this.convertTagsToObj(this.editPost.tags);
 
       this.postForm.setValue({
@@ -240,8 +236,6 @@ export class PostFormComponent implements OnInit {
         isPublished: this.editPost.isPublished,
         publishDate: new Date(this.editPost.publishDate)
       });
-
-      console.log(this.postForm.get('tags').value);
     }
   }
 }

@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-lg-8">
         <p class="tags">
-          <span *ngFor="let tag of post.tags">
+          <span *ngFor="let tag of post.tags" [routerLink]="['/tags', tag]">
             <i class="fa fa-hashtag mr-2"></i>{{ tag | ucwords }}</span>
         </p>
         <p class="time">By {{ post.author | ucwords }} On {{ post.publishDate | date:'medium' }}

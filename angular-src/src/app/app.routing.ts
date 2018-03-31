@@ -28,16 +28,19 @@ const appRoutes: Routes = [
         path: '', component: BlogHomeComponent
       },
       {
-        path: 'posts', component: BlogPostsComponent
+        path: 'posts', component: BlogPostsComponent, data: { title: 'Posts' }
       },
       {
         path: 'posts/:slug', component: BlogPostDetailsComponent
       },
       {
-        path: 'categories', component: BlogCategoryListComponent
+        path: 'categories', component: BlogCategoryListComponent, data: { title: 'Categories' }
       },
       {
         path: 'categories/:slug', component: BlogHomeComponent
+      },
+      {
+        path: 'tags/:tag', component: BlogHomeComponent
       }
     ]
   },

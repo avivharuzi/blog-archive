@@ -60,6 +60,25 @@ class PostController {
         });
     }
 
+    static getPostsByTitle(name) {
+        return new Promise((resolve, reject) => {
+            Post.find({
+                title: {
+                    $regex: '.*' + name + '.*',
+                    $options: 'i'
+                }
+            })
+            .select('title coverImage slug')
+            .exec((err, posts) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(posts);
+                }
+            });
+        });
+    }
+
     static getPostsByCategorySlug(categorySlug) {
         return new Promise((resolve, reject) => {
             CategoryController.getCategoryBySlug(categorySlug)
@@ -110,6 +129,24 @@ class PostController {
                     resolve(post);
                 } else {
                     reject(['No post was found']);
+                }
+            });
+        });
+    }
+
+    static getPostsByTag(tag) {
+        return new Promise((resolve, reject) => {
+            Post.find({
+                tags: {
+                    $in: [tag]
+                }
+            })
+            .populate('category')
+            .exec((err, posts) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(posts);
                 }
             });
         });
