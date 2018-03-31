@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Validator } from '../../../models/validator.model';
 import { Category } from '../../../models/category.model';
 import { CategoryService } from '../../../services/category/category.service';
+import { ValidationService } from '../../../services/validation/validation.service';
 
 @Component({
   selector: 'app-category-form',
@@ -25,7 +26,8 @@ export class CategoryFormComponent implements OnInit {
   public successCategory: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private validationService: ValidationService
   ) { }
 
   ngOnInit() {
@@ -109,5 +111,13 @@ export class CategoryFormComponent implements OnInit {
         name: this.editCategory.name,
       });
     }
+  }
+
+  getControl(controlName) {
+    return this.categoryForm.get(controlName);
+  }
+
+  getStatus(controlName) {
+    return this.validationService.statusClass(this.getControl(controlName));
   }
 }

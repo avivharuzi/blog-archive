@@ -6,6 +6,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { PostService } from '../../../services/post/post.service';
 import { CategoryService } from '../../../services/category/category.service';
+import { ValidationService } from '../../../services/validation/validation.service';
 
 @Component({
   selector: 'app-post-form',
@@ -30,7 +31,8 @@ export class PostFormComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private categoryService: CategoryService,
-    private postService: PostService
+    private postService: PostService,
+    private validationService: ValidationService
   ) { }
 
   ngOnInit() {
@@ -72,7 +74,7 @@ export class PostFormComponent implements OnInit {
     const isPublished = new FormControl(true);
 
     const publishDate = new FormControl(new Date(), [
-      Validator.required('publishDate')
+      Validator.required('Publish date')
     ]);
 
     this.postForm = new FormGroup({
@@ -237,5 +239,13 @@ export class PostFormComponent implements OnInit {
         publishDate: new Date(this.editPost.publishDate)
       });
     }
+  }
+
+  getControl(controlName) {
+    return this.postForm.get(controlName);
+  }
+
+  getStatus(controlName) {
+    return this.validationService.statusClass(this.getControl(controlName));
   }
 }

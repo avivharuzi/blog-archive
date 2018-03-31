@@ -7,20 +7,23 @@
           <div class="col-lg-4">
             <div class="form-group">
               <label>Title</label>
-              <input type="text" formControlName="title" placeholder="Title" class="form-control">
+              <input type="text" [ngClass]="getStatus('title')" formControlName="title" placeholder="Title" class="form-control">
+              <app-error-form [control]="getControl('title')"></app-error-form>
             </div>
           </div>
           <div class="col-lg-4">
             <div class="form-group">
               <label>Slug</label>
-              <input type="text" formControlName="slug" placeholder="Slug" class="form-control">
+              <input type="text" formControlName="slug" [ngClass]="getStatus('slug')" placeholder="Slug" class="form-control">
+              <app-error-form [control]="getControl('slug')"></app-error-form>
               <button type="button" (click)="generateSlug()" class="btn btn-link p-0">Generate slug from title</button>
             </div>
           </div>
           <div class="col-lg-4">
             <div class="form-group">
               <label>Author</label>
-              <input type="text" formControlName="author" placeholder="Author" class="form-control">
+              <input type="text" formControlName="author" [ngClass]="getStatus('author')" placeholder="Author" class="form-control">
+              <app-error-form [control]="getControl('author')"></app-error-form>
             </div>
           </div>
         </div>
@@ -50,7 +53,8 @@
         </div>
         <div class="form-group">
           <label>Summary</label>
-          <textarea placeholder="Summary" formControlName="summary" rows="5" class="form-control"></textarea>
+          <textarea placeholder="Summary" [ngClass]="getStatus('summary')" formControlName="summary" rows="5" class="form-control"></textarea>
+          <app-error-form [control]="getControl('summary')"></app-error-form>
         </div>
         <div class="form-group">
           <label>Body</label>
