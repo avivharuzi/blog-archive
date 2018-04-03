@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Category } from '../../models/category.model';
 import { ValidationService } from '../validation/validation.service';
+import { AuthService } from '../auth/auth.service';
 import { BASE_CATEGORY_URL, CATEGORY_HIGHEST_POSTS_URL } from './../../constants/urls';
 
 import { Observable } from 'rxjs/Observable';
@@ -17,18 +18,19 @@ export class CategoryService {
 
   constructor(
     private http: HttpClient,
-    private validationService: ValidationService
+    private validationService: ValidationService,
+    private authService: AuthService
   ) { }
 
   getCategories(): Observable<any> {
-    return this.http.get(BASE_CATEGORY_URL).map((res: any) => {
+    return this.http.get(BASE_CATEGORY_URL, { headers: this.authService.headers }).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));
   }
 
   getCategoriesWithHighestPosts(): Observable<any> {
-    return this.http.get(`${CATEGORY_HIGHEST_POSTS_URL}/5`).map((res: any) => {
+    return this.http.get(`${CATEGORY_HIGHEST_POSTS_URL}/5`, { headers: this.authService.headers }).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));
@@ -37,7 +39,7 @@ export class CategoryService {
   setCategory(category: Category): Observable<any> {
     const fd: FormData = this.validationService.getFormDataFromObject(category);
 
-    return this.http.post(BASE_CATEGORY_URL, fd).map((res: any) => {
+    return this.http.post(BASE_CATEGORY_URL, fd, { headers: this.authService.headers }).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));
@@ -46,14 +48,14 @@ export class CategoryService {
   updateCategory(category: Category, categoryId: string): Observable<any> {
     const fd: FormData = this.validationService.getFormDataFromObject(category);
 
-    return this.http.put(`${BASE_CATEGORY_URL}/${categoryId}`, fd).map((res: any) => {
+    return this.http.put(`${BASE_CATEGORY_URL}/${categoryId}`, fd, { headers: this.authService.headers }).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));
   }
 
   deleteCategory(categoryId: string): Observable<any> {
-    return this.http.delete(`${BASE_CATEGORY_URL}/${categoryId}`).map((res: any) => {
+    return this.http.delete(`${BASE_CATEGORY_URL}/${categoryId}`, { headers: this.authService.headers }).map((res: any) => {
       return res;
     })
     .catch((err: HttpErrorResponse) => Observable.throw(err.error));

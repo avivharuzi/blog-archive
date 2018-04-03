@@ -15,13 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!(NO_AUTHORIZATION_URLS.indexOf(req.url) > -1)) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: this.authService.token
-        }
-      });
-    }
+    req = req.clone();
 
     return next.handle(req)
       .do(event => {

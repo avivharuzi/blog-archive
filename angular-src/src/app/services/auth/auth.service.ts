@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { User } from './../../models/user.model';
@@ -13,12 +13,14 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class AuthService {
   private _token: string;
+  public headers: HttpHeaders;
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
     this.token = localStorage.getItem('user_token');
+    this.headers = new HttpHeaders().set('Authorization', this.token);
   }
 
   get token(): string {
