@@ -132,6 +132,8 @@ export class PostFormComponent implements OnInit {
           this.typeMessage = 'success';
           this.postForm.reset();
           this.postForm.get('category').setValue(this.categories[0]._id);
+          this.postForm.get('publishDate').setValue(new Date());
+          this.postForm.get('isPublished').setValue(true);
           this.resetCoverImage();
           this.loading = false;
         }
