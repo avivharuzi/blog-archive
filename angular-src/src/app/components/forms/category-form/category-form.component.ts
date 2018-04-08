@@ -15,6 +15,7 @@ export class CategoryFormComponent implements OnInit {
   public categoryImage: File;
   public categoryMessage: any;
   public typeMessage: string;
+  public loading: boolean;
 
   @Input()
   public editCategory: any;
@@ -28,7 +29,9 @@ export class CategoryFormComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private validationService: ValidationService
-  ) { }
+  ) {
+    this.loading = false;
+  }
 
   ngOnInit() {
     this.createCategoryForm();
@@ -47,6 +50,8 @@ export class CategoryFormComponent implements OnInit {
 
   setCategoryForm(): void {
     if (this.categoryForm.valid) {
+      this.loading = true;
+
       if (this.editCategory) {
         this.setEditCategory();
       } else {
@@ -68,10 +73,12 @@ export class CategoryFormComponent implements OnInit {
         this.successCategory.emit(res.data);
         this.categoryForm.reset();
         this.resetCoverImage();
+        this.loading = false;
       }
     }, (err) => {
       this.categoryMessage = err.errors;
       this.typeMessage = 'danger';
+      this.loading = false;
     });
   }
 
@@ -88,10 +95,12 @@ export class CategoryFormComponent implements OnInit {
         this.categoryMessage = res.message;
         this.typeMessage = 'success';
         this.categoryService.updatedCategory.emit(res.data);
+        this.loading = false;
       }
     }, (err) => {
       this.categoryMessage = err.errors;
       this.typeMessage = 'danger';
+      this.loading = false;
     });
   }
 

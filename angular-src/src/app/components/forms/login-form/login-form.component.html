@@ -1,12 +1,12 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-lg-6">
-      <app-loading [loading]="false" [background]="'white'"></app-loading>
+      <app-loading [loading]="loading" [background]="'white'"></app-loading>
       <form [formGroup]="loginForm" (ngSubmit)="setLoginForm()" autocomplete="off" novalidate>
         <div class="bg-dark text-light p-3 text-center mb-3">
           <h1 class="jumbotron-heading">Login</h1>
         </div>
-        <app-message *ngIf="messageForm && typeMessage" [type]="typeMessage" [message]="messageForm"></app-message>
+        <app-message *ngIf="typeMessage && messageForm" [type]="typeMessage" [message]="messageForm"></app-message>
         <div class="form-group">
           <label>Username</label>
           <input type="text" formControlName="username" [ngClass]="getStatus('username')" class="form-control" placeholder="Username"

@@ -2,6 +2,7 @@ const User = require('./../models/user.model');
 
 const ValidationHandler = require('./../handlers/validation.handler');
 const FileHandler = require('./../handlers/file.handler');
+const AwsHandler = require('./../handlers/aws.handler');
 
 class UserController {
     static saveUser(user) {
@@ -68,7 +69,7 @@ class UserController {
         return new Promise((resolve, reject) => {
             if (user.profileImage) {
                 FileHandler.checkFilesErrors(user.profileImage, 'image', 2)
-                    .then(FileHandler.moveFiles)
+                    .then(AwsHandler.uploadFileToS3)
                     .then((profileImageName) => {
                         user.profileImage = profileImageName;
                         resolve(user);
@@ -115,6 +116,23 @@ class UserController {
                     });
                 } else {
                     reject(['The username or password you have entered is invalid']);
+                }
+            });
+        });
+    }
+
+    static checkUserForAuthAndGetUser(user) {
+        return new Promise((resolve, reject) => {
+            User.findOne({
+                username: user.username.toLowerCase(),
+                password: user.password
+            }, (err, userExist) => {
+                if (err) {
+                    reject();
+                } else if (userExist) {
+                    resolve(userExist);
+                } else {
+                    reject();
                 }
             });
         });

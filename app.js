@@ -11,7 +11,7 @@ const path = require('path');
 const AuthHandler = require('./handlers/auth.handler');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://127.0.0.1:27017/blog');
+mongoose.connect(`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@ds231529.mlab.com:31529/blog`);
 
 const authRoute = require('./routes/auth.route');
 const categoryRoute = require('./routes/category.route');

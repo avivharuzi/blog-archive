@@ -21,6 +21,7 @@ export class PostFormComponent implements OnInit {
   public typeMessage: string;
   public modalRef: BsModalRef;
   public categories: any[];
+  public loading: boolean;
 
   @Input()
   public editPost: any;
@@ -33,7 +34,9 @@ export class PostFormComponent implements OnInit {
     private categoryService: CategoryService,
     private postService: PostService,
     private validationService: ValidationService
-  ) { }
+  ) {
+    this.loading = false;
+  }
 
   ngOnInit() {
     this.dateNow = new Date();
@@ -106,6 +109,8 @@ export class PostFormComponent implements OnInit {
     }
 
     if (this.postForm.valid) {
+      this.loading = true;
+
       let tags = this.convertTagsToArr();
 
       const post: Post = new Post(
@@ -126,45 +131,54 @@ export class PostFormComponent implements OnInit {
           this.postMessage = res.message;
           this.typeMessage = 'success';
           this.postForm.reset();
+          this.postForm.get('category').setValue(this.categories[0]._id);
           this.resetCoverImage();
+          this.loading = false;
         }
       }, (err) => {
         this.postMessage = err.errors;
         this.typeMessage = 'danger';
+        this.loading = false;
       });
     }
   }
 
   setEditPost() {
-    let tags = this.convertTagsToArr();
+    if (this.postForm.valid) {
+      this.loading = true;
 
-    const post: Post = new Post(
-      this.postForm.get('title').value,
-      this.postForm.get('slug').value,
-      this.postForm.get('author').value,
-      this.postForm.get('summary').value,
-      this.postForm.get('body').value,
-      tags,
-      this.postForm.get('category').value,
-      this.postForm.get('isPublished').value,
-      this.postForm.get('publishDate').value.getTime(),
-      this.coverImage,
-      this.editPost.title,
-      this.editPost.slug,
-      this.editPost.coverImage,
-      this.editPost.category._id
-    );
+      let tags = this.convertTagsToArr();
 
-    this.postService.editPost(post, this.editPost._id).subscribe((res: any) => {
-      if (res) {
-        this.postMessage = res.message;
-        this.typeMessage = 'success';
-        this.postService.updatedPost.emit(res.data);
-      }
-    }, (err) => {
-      this.postMessage = err.errors;
-      this.typeMessage = 'danger';
-    });
+      const post: Post = new Post(
+        this.postForm.get('title').value,
+        this.postForm.get('slug').value,
+        this.postForm.get('author').value,
+        this.postForm.get('summary').value,
+        this.postForm.get('body').value,
+        tags,
+        this.postForm.get('category').value,
+        this.postForm.get('isPublished').value,
+        this.postForm.get('publishDate').value.getTime(),
+        this.coverImage,
+        this.editPost.title,
+        this.editPost.slug,
+        this.editPost.coverImage,
+        this.editPost.category._id
+      );
+
+      this.postService.editPost(post, this.editPost._id).subscribe((res: any) => {
+        if (res) {
+          this.postMessage = res.message;
+          this.typeMessage = 'success';
+          this.postService.updatedPost.emit(res.data);
+          this.loading = false;
+        }
+      }, (err) => {
+        this.postMessage = err.errors;
+        this.typeMessage = 'danger';
+        this.loading = false;
+      });
+    }
   }
 
   generateSlug(): void {

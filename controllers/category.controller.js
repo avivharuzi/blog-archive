@@ -2,6 +2,7 @@ const Category = require('./../models/category.model');
 
 const ValidationHandler = require('./../handlers/validation.handler');
 const FileHandler = require('./../handlers/file.handler');
+const AwsHandler = require('./../handlers/aws.handler');
 
 class CategoryController {
     static getCategories() {
@@ -176,7 +177,7 @@ class CategoryController {
         return new Promise((resolve, reject) => {
             if (category.image.constructor !== String) {
                 FileHandler.checkFilesErrors(category.image, 'image', 2)
-                .then(FileHandler.moveFiles)
+                .then(AwsHandler.uploadFileToS3)
                 .then((newImageName) => {
                     category.image = newImageName;
                     resolve(category);
@@ -205,7 +206,7 @@ class CategoryController {
 
     static checkCategoryImageExistUpdate(category) {
         return new Promise((resolve, reject) => {
-            if (category.existCategoryImage && !category.image) {
+            if (category.existCategoryImage && (!category.image || category.image.constructor === String)) {
                 category.image = category.existCategoryImage;
                 resolve(category);
             } else {
@@ -291,8 +292,8 @@ class CategoryController {
 
     static checkAndDeleteOldImage(category) {
         return new Promise((resolve, reject) => {
-            if (category.existCategoryImage != process.env.DEFAULT_CATEGORY_IMAGE) {
-                FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + category.existCategoryImage);
+            if (category.existCategoryImage !== category.image) {
+                AwsHandler.deleteFileFromS3(category.existCategoryImage);
             }
             resolve(category);
         });
@@ -332,7 +333,7 @@ class CategoryController {
     static deleteImage(category) {
         return new Promise((resolve, reject) => {
             if (category.image != process.env.DEFAULT_CATEGORY_IMAGE) {
-                FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + category.image);
+                AwsHandler.deleteFileFromS3(category.image);
             }
             resolve(category);
         });

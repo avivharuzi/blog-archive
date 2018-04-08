@@ -3,6 +3,7 @@ const Post = require('./../models/post.model');
 const CategoryController = require('./../controllers/category.controller');
 
 const FileHandler = require('./../handlers/file.handler');
+const AwsHandler = require('./../handlers/aws.handler');
 const ValidationHandler = require('./../handlers/validation.handler');
 
 class PostController {
@@ -347,7 +348,7 @@ class PostController {
         return new Promise((resolve, reject) => {
             if (post.coverImage.constructor !== String) {
                 FileHandler.checkFilesErrors(post.coverImage, 'image', 2)
-                .then(FileHandler.moveFiles)
+                .then(AwsHandler.uploadFileToS3)
                 .then((newImageName) => {
                     post.coverImage = newImageName;
                     resolve(post);
@@ -374,7 +375,7 @@ class PostController {
     static checkAndDeleteOldImage(post) {
         return new Promise((resolve, reject) => {
             if (post.existPostCoverImage != post.coverImage) {
-                FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + post.existPostCoverImage);;
+                AwsHandler.deleteFileFromS3(post.existPostCoverImage);
                 resolve(post);
             } else {
                 resolve(post);
@@ -384,7 +385,7 @@ class PostController {
 
     static deleteImage(post) {
         return new Promise((resolve, reject) => {
-            FileHandler.deleteFile(process.env.IMAGES_PATH + '/' + post.coverImage);;
+            AwsHandler.deleteFileFromS3(post.coverImage);
             resolve(post);
         });  
     }

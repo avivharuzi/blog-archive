@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+const UserController = require('./../controllers/user.controller');
+
 class AuthHandler {
     static authenticate(req, res, next) {
         if (req.method === 'OPTIONS') {
@@ -10,8 +12,8 @@ class AuthHandler {
             let token = req.headers.authorization
 
             AuthHandler.checkUserToken(token)
-                .then((decoded) => {
-                    req.userData = decoded;
+                .then((userData) => {
+                    req.userData = userData;
                     next();
                 })
                 .catch(() => res.status(401).end());
@@ -33,12 +35,14 @@ class AuthHandler {
     }
 
     static checkUserToken(token) {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(decoded);
+                    UserController.checkUserForAuthAndGetUser(decoded)
+                        .then(userExist => resolve(userExist))
+                        .catch(() => reject());
                 }
             });
         });

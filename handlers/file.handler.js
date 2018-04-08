@@ -71,46 +71,6 @@ class FileHandler {
         });
     }
 
-    static moveFiles(files, path = process.env.IMAGES_PATH) {
-        return new Promise((resolve, reject) => {
-            let newFileNames = [];
-            let i = 0;
-
-            if (files.constructor !== Array) {
-                files = [files];
-            }
-    
-            for (let file of files) {
-                const fileExt = file.name.split('.');
-                const fileActualExt = fileExt[fileExt.length - 1];
-                const uid = Date.now() + i;
-                const newFileName = uid + '.' + fileActualExt;
-    
-                file.mv(path + '/' + newFileName, (err) => {
-                    if (err) {
-                        reject(err);
-                    }
-                });
-                newFileNames.push(newFileName);
-                i++;
-            }
-
-            resolve(newFileNames);
-        });
-    }
-
-    static deleteFile(filePath) {
-        return new Promise((resolve, reject) => {
-            fs.unlink(filePath, (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        });
-    }
-
     static fileExists(filePath) {
         try {
             return fs.statSync(filePath).isFile();

@@ -39,6 +39,7 @@ export class AuthService {
       let token = res.data;
       if (token) {
         this.token = token;
+        this.headers = new HttpHeaders().set('Authorization', this.token);
         return true;
       } else {
         return false;

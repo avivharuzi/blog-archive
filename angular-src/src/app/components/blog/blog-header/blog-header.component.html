@@ -9,7 +9,7 @@
         <button type="submit"><i class="fa fa-search"></i></button>
         <div *ngIf="searchResults.length" class="autocomplete-items">
           <div *ngFor="let result of searchResults" (click)="renmoveList()" [routerLink]="['/posts', result.slug]">
-            <img class="mr-3" [src]="'http://localhost:3000/images/' + result.coverImage" width="30px" height="30px">
+            <img class="mr-3" [src]="imagesPath + '/' + result.coverImage" width="30px" height="30px">
             {{ result.title | ucwords }}
           </div>
         </div>
