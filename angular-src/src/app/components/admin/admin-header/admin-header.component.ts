@@ -7,12 +7,23 @@ import { AuthService } from '../../../services/auth/auth.service';
   styleUrls: ['./admin-header.component.css']
 })
 export class AdminHeaderComponent implements OnInit {
+  public navMobile: string;
 
   constructor(
     private authService: AuthService
-  ) { }
+  ) {
+    this.navMobile = 'nav-mobile-admin-none';
+  }
 
   ngOnInit() {
+  }
+
+  toggleNavMobile(): void {
+    if (this.navMobile === 'nav-mobile-admin-block') {
+      this.navMobile = 'nav-mobile-admin-none';
+    } else {
+      this.navMobile = 'nav-mobile-admin-block';
+    }
   }
 
   logout(): void {

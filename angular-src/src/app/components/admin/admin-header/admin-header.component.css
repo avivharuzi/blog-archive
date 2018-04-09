@@ -29,3 +29,80 @@
 .router-link-active {
   background: #2c3e50;
 }
+
+.dropdown-mobile-admin {
+  display: none;
+}
+
+.dropdown-mobile-admin {
+  display: none;
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+  background: #34495e;
+}
+
+.dropdown-mobile-admin li span {
+  color: #34495e;
+  background: #fff;
+  outline: none;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 5px;
+  border: 3px solid #34495e;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 991px) {
+  #nav {
+    padding: 0;
+  }
+
+  #nav .container {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100%;
+  }
+
+  #nav ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  #nav ul li {
+    position: relative;
+    float: none !important;
+    width: 100%;
+  }
+
+  #nav ul li a {
+    color: #fff;
+    padding: 15px 30px;
+    cursor: pointer;
+    display: block;
+  }
+
+  #nav ul li a:hover {
+    text-decoration: none;
+    background: #2c3e50;
+  }
+
+  .router-link-active {
+    background: #2c3e50;
+  }
+
+  .dropdown-mobile-admin {
+    display: block;
+  }
+
+  .nav-mobile-admin-block {
+    display: block;
+  }
+
+  .nav-mobile-admin-none {
+    display: none;
+  }
+}

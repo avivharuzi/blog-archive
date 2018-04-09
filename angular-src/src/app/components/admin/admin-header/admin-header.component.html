@@ -1,4 +1,7 @@
-<div id="nav" class="clearfix">
+<ul class="dropdown-mobile-admin">
+  <li><span (click)="toggleNavMobile()"><i class="fa fa-bars"></i></span></li>
+</ul>
+<div id="nav" [ngClass]="navMobile" class="clearfix">
   <div class="container">
     <ul>
       <li><a routerLink="/admin" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>

@@ -14,10 +14,13 @@ export class BlogHeaderComponent implements OnInit {
   public searchResults: any[];
   public imagesPath: string;
 
+  public navMobile: string;
+
   constructor(
     private blogService: BlogService
   ) {
     this.imagesPath = BASE_IMAGE_PATH;
+    this.navMobile = 'nav-mobile-none';
   }
 
   ngOnInit() {
@@ -37,5 +40,13 @@ export class BlogHeaderComponent implements OnInit {
   renmoveList(): void {
     this.searchResults = [];
     this.search = null;
+  }
+
+  toggleNavMobile(): void {
+    if (this.navMobile === 'nav-mobile-block') {
+      this.navMobile = 'nav-mobile-none';
+    } else {
+      this.navMobile = 'nav-mobile-block';
+    }
   }
 }

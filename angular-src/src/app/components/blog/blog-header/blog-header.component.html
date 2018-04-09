@@ -1,12 +1,14 @@
-<div class="topnav clearfix">
+<ul class="dropdown-mobile">
+  <li><span (click)="toggleNavMobile()"><i class="fa fa-bars"></i></span></li>
+</ul>
+<div class="topnav clearfix" [ngClass]="navMobile">
   <div class="container">
     <a routerLink="/">Home</a>
     <a routerLink="/posts">Posts</a>
     <a routerLink="/categories">Categories</a>
     <div class="search-container">
       <form style="position: relative">
-        <input type="text" [(ngModel)]="search" (keyup)="onKeyup()" placeholder="Search" name="search">
-        <button type="submit"><i class="fa fa-search"></i></button>
+        <input type="text" [(ngModel)]="search" (keyup)="onKeyup()" placeholder="Search" name="search"><button type="submit"><i class="fa fa-search"></i></button>
         <div *ngIf="searchResults.length" class="autocomplete-items">
           <div *ngFor="let result of searchResults" (click)="renmoveList()" [routerLink]="['/posts', result.slug]">
             <img class="mr-3" [src]="imagesPath + '/' + result.coverImage" width="30px" height="30px">
