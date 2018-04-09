@@ -23,8 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(fileUpload());
 
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
-
 routes(app);
 
 module.exports = app;
