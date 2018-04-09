@@ -66,10 +66,7 @@
           <tag-input [placeholder]="'Tags'" formControlName="tags" theme='bootstrap'></tag-input>
         </div>
         <div class="form-group">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" formControlName="isPublished" class="custom-control-input" id="isPublished">
-            <label class="custom-control-label" for="isPublished">Published</label>
-          </div>
+          <input type="checkbox" formControlName="isPublished" id="isPublished"> Published
         </div>
         <button [disabled]="postForm.invalid" class="btn btn-block btn-success" type="submit">Submit</button>
       </form>
