@@ -47,6 +47,10 @@ a {
   background: #fff;
 }
 
+.btn {
+  cursor: pointer;
+}
+
 /* Nav */
 
 .topnav {

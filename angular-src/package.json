@@ -23,7 +23,7 @@
     "@angular/router": "^5.2.0",
     "@swimlane/ngx-charts": "^7.1.1",
     "@toverux/ngx-sweetalert2": "^3.4.0",
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.0.0-beta.2",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "ng2-ckeditor": "^1.2.0",
