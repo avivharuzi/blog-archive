@@ -4,13 +4,15 @@ full blog system including cms with node.js and angular 5
 
 ### Database
 
-gallery
+blog
 
 ### Collections
 
-image
+users
 
-user
+posts
+
+categories
 
 ### .env
 
