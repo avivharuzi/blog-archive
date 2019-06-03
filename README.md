@@ -1,12 +1,12 @@
-# blog
+# Blog
 
-full blog system including cms with node.js and angular 5
+Full Blog system including CMS built with Node.js and Angular 5.
 
-### Database
+## Database
 
 blog
 
-### Collections
+## Collections
 
 users
 
@@ -14,7 +14,7 @@ posts
 
 categories
 
-### .env
+## .env File
 
 PORT
 
