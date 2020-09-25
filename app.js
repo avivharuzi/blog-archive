@@ -11,7 +11,7 @@ const path = require('path');
 const routes = require('./routes/index');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@ds231529.mlab.com:31529/blog`);
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then();
 
 const app = express();
 

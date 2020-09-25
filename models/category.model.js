@@ -17,7 +17,7 @@ const categorySchema = new Schema({
         type: String
     },
     posts: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: 'Post'
     }],
     createdDate: {

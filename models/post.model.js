@@ -29,7 +29,7 @@ const postSchema = new Schema({
         lowercase: true
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: 'Category'
     },
     isPublished: {
